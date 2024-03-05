@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ffffff 0%, #000000 100%);
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+        }
+        
+        input[type=text], input[type=number], input[type=date], select {
+            width: 20%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input[type=submit] {
+    width: 20%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #ee0000;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+input[type=text], input[type=number], input[type=date], select {
+    width: 20%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: #000000;
+}
+</style>
+<body>
+    <h2>Registration</h2>
+    
+    <form method="post" th:action="@{/registration?success}">
+    
+        <label for="name">Name</label><br>
+        <input type="text" id=name placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required><br>
+        
+        <label for="username">Surname</label><br>
+        <input type="text" id=username placeholder="Ievadi savu Uzvārdu" minlength="4" maxlength="30" required><br>
+
+        <label for="group">Group</label><br>
+        <select name="" id="group">
+            <option value="DP2-1">DP2-1</option>
+            <option value="DP2-2">DP2-2</option>
+            <option value="DP2-1">DP2-3</option>
+            <option value="DP2-2">DP2-4</option>
+        </select><br>
+        
+        <label for="Age">Age</label><br>
+        <input type="number" id=Age placeholder="Ievadi savu vecumu" min="6" max="120"><br>
+        <label for="Bday">Bday</label><br>
+        <input type="date" id=Day placeholder="dzimšanas Gads"><br>
+        
+        <input type ="submit" value="Reģistrēties">
+    </form>
+</body>
+</html>
+</head>
