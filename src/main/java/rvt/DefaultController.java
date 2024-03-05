@@ -14,8 +14,8 @@ public class DefaultController {
     
     @GetMapping(value = "/")
     ModelAndView index(@RequestParam(name="name", required=false, defaultValue="null") String name) {
-        Student student = new Student("John", "Smith", "a@a.lv", "DP2-4");
-        List<Student> students = new ArrayList<>();
+        Person student = new Person("John", "Smith", "a@a.lv", "DP2-4");
+        List<Person> students = new ArrayList<>();
         students.add(student);
 
         ModelAndView modelAndView = new ModelAndView("index");

@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DefaultRestController {
 
     @RequestMapping(value = "/student", produces = MediaType.APPLICATION_JSON_VALUE)
-    String getAllStudents() {
-        Student student = 
-        new Student("Jānis",
+    String getAllPersons() {
+        Person student = 
+        new Person("Jānis",
         "Smith",
         "j@s.lv",
         "DP2-1");
