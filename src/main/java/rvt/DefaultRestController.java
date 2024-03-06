@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class DefaultRestController {
 
-    @RequestMapping(value = "/student", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/Person", produces = MediaType.APPLICATION_JSON_VALUE)
     String getAllPersons() {
-        Person student = 
+        Person person = 
         new Person("Jānis",
         "Smith",
         "j@s.lv",
@@ -21,7 +21,7 @@ public class DefaultRestController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String json = objectMapper.writeValueAsString(student);
+            String json = objectMapper.writeValueAsString(person);
             return json;
         } catch (JsonProcessingException e) {
             e.printStackTrace();

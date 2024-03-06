@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration success</title>
+  </head>
+  <body>
+    <h2>Thanks for registration!</h2>
+    <a th:href="@{/registration}">Register again...</a>
+
+    <div th:if="${param.success}">
+        <div class="alert alert-info">
+          You have successfully registered our app!
+        </div>
+    </div>
+  </body>
+</html>
