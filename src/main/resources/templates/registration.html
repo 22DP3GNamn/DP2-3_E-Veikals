@@ -1,41 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/style/registration.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/style/registration.css" > -->
     <title>Document</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #8cacf3da;
+            font-family: Arial, sans-serif;
+        }
+
+        .context {
+            width: 300px;
+            padding: 16px;
+            background-color: rgba(202, 202, 202, 0.753);
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #8c96f3;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #fdfdfd;
+        }
+    </style>
 </head>
-
-<body class="area">
-    <ul class="circles">
-    </ul>
-
+<body>
     <div class="context">
         <h2>Registration</h2>
         
         <form method="post" th:action="@{/registration?success}">
-            <label for="name">Name</label><br>
-            <input type="text" id="name" placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required><br>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required>
             
-            <label for="username">Surname</label><br>
-            <input type="text" id="username" placeholder="Ievadi savu Uzvārdu" minlength="4" maxlength="30" required><br>
+            <label for="username">Surname</label>
+            <input type="text" id="username" placeholder="Ievadi savu Uzvārdu" minlength="4" maxlength="30" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="Email" placeholder="Ievadi savu E-pastu">
             
-            <!-- <label for="group">Group</label><br>
-            <select name="" id="group">
-                <option value="DP2-1">DP2-1</option>
-                <option value="DP2-2">DP2-2</option>
-                <option value="DP2-1">DP2-3</option>
-                <option value="DP2-2">DP2-4</option>
-            </select><br> -->
-            
-            <label for="Age">Age</label><br>
-            <input type="number" id="Age" placeholder="Ievadi savu vecumu" min="6" max="120"><br>
-            <label for="Bday">Bday</label><br>
-            <input type="date" id="Day" placeholder="dzimšanas Gads"><br>
+            <!-- <label for="Bday">Bday</label>
+            <input type="date" id="Day" placeholder="dzimšanas Gads"> -->
             
             <input type ="submit" value="Reģistrēties">
         </form>
     </div>
 </body>
-</html> 
+</html>

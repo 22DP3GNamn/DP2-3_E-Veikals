@@ -38,6 +38,11 @@ public class DefaultController {
         return "Login";
     }
 
+    @GetMapping(value = "/shoppin")
+    String shoppin(){
+        return "shoppin";
+    }
+
     @GetMapping(value = "/Cart")
     String cart(){
         return "Cart";

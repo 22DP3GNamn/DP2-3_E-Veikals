@@ -27,11 +27,19 @@ public class Person {
         return email;
     }
     
-    public String getgroup(){
-        return group;
-    }
-    
     public String getage(){
         return age;
     }
+    public String setname(){
+        return name;
     }
+    public String setsurname(){
+        return surname;
+    }
+    public String setemail(){
+        return email;
+    }
+    public String setage(){
+        return age;
+    }
+}
