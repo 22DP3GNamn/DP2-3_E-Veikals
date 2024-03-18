@@ -16,9 +16,10 @@ public class CSVManager{
                 new BufferedWriter(
                     new FileWriter("/workspaces/DP2-3_E-Veikals/src/main/data/PersonTable.csv", true));
             
-                String record = String.format("%s, %s, %s, %s\n",person.getname(), person.getsurname(), person.getemail());
+                String record = String.format("%s, %s, %s, %s\n",person.getname(), person.getsurname(), person.getemail(), person.getpassword());
                 writer.write(record);
-            
+                
+            writer.flush();
             writer.close();
     
         } catch(IOException e){
@@ -27,30 +28,5 @@ public class CSVManager{
         }
         return true;
     }
-    // public static void removePersonFromCSV(String personToRemove){
-    //     ArrayList<String> persona = new ArrayList<>();
-    //     try{
-    //         File inputFile= new File("/workspaces/DP2-3_E-Veikals/src/main/data/PersonTable.csv");
-    //         Scanner scanner = new Scanner(inputFile);
-    //         while (scanner.hasNextLine()){
-    //             String line = scanner.nextLine();
-    //             if (!line.contains(personToRemove)){
-    //                 persona.add(line);
-
-    //             } 
-    //         }
-
-    //         scanner.close();
-    //         PrintWriter writer = new PrintWriter(inputFile);
-    //         for(String person : persona){
-    //             writer.println(person);
-    //         }
-    //         writer.close();
-    //     } catch(FileNotFoundException e) {
-    //         System.out.println("Kļūda!");
-    //         e.printStackTrace();
-    //     }
-
-    // }
     
 }

@@ -16,7 +16,7 @@ public class DefaultRestController {
         new Person("Jānis",
         "Smith",
         "j@s.lv",
-        "DP2-1");
+        "kaza123");
 
 
         ObjectMapper objectMapper = new ObjectMapper();

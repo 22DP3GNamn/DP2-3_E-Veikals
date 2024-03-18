@@ -5,31 +5,30 @@ public class Person {
     public String name;
     public String surname;
     public String email;
-    public String group;
-    public String age;
+    public String password;
 
 
-    public Person(String name, String surname, String email, String group) {
+    public Person(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.group = group;
+        this.password = password;
     }
     public String getname(){
         return name;
     }
-    
     public String getsurname(){
         return surname;
     }
-    
     public String getemail(){
         return email;
     }
-    
-    public String getage(){
-        return age;
+    public String getpassword(){
+        return password;
     }
+
+
+
     public String setname(){
         return name;
     }
@@ -39,7 +38,7 @@ public class Person {
     public String setemail(){
         return email;
     }
-    public String setage(){
-        return age;
+    public String setpassword(){
+        return password;
     }
 }

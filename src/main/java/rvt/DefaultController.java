@@ -33,9 +33,9 @@ public class DefaultController {
     return modelAndView;
     }
 
-    @GetMapping(value = "/Login")
+    @GetMapping(value = "/login")
     String Login(){
-        return "Login";
+        return "login";
     }
 
     @GetMapping(value = "/shoppin")

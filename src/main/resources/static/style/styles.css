@@ -58,3 +58,20 @@ body {
   padding: 10px 20px;
   border-radius: 12px;
 }
+
+.button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #8c96f3;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #fdfdfd;
+  color: #8c96f3;
+}
