@@ -7,7 +7,6 @@ public class Person {
     public String email;
     public String password;
 
-
     public Person(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
@@ -26,7 +25,7 @@ public class Person {
     public String getpassword(){
         return password;
     }
-
+    
 
 
     public String setname(){
@@ -41,4 +40,5 @@ public class Person {
     public String setpassword(){
         return password;
     }
+
 }

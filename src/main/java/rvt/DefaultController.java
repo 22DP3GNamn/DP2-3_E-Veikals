@@ -54,6 +54,12 @@ public class DefaultController {
         return modelAndView;
     }
 
+
+
+
+
+
+
     @GetMapping(value = "/registration")
     public ModelAndView register(@RequestParam HashMap<String, String> allParams, User user){
         if(allParams.containsKey("success")){

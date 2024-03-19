@@ -248,7 +248,7 @@
 <h2>Registration</h2>
 <div class="context">
 
-        <form method="post" th:action="@{/registration?success}">
+    <form action="RegisterServlet" method="post">
 
             <label for="name">Name</label>
             <input type="text" id="name" placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required>
@@ -262,8 +262,8 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="Ievadiet savu paroli" minlength="8" maxlength="20"required>
             
-            <label for="password">Confirm Password</label>
-            <input type="password" id="password" placeholder="Ievadiet atkārtoti paroli" minlength="8" maxlength="20"required>
+            <label for="confirmpassword">Confirm Password</label>
+            <input type="password" id="confirmpassword" placeholder="Ievadiet atkārtoti paroli" minlength="8" maxlength="20"required>
             
             <a href="/login" class="button">Already have an account?</a>
             
