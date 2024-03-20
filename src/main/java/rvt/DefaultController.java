@@ -54,6 +54,26 @@ public class DefaultController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/successRegister")
+    public String success() {
+        return "login";
+    }
+
+    @GetMapping(value = "/errorRegister")
+    public String error() {
+        return "registration";
+    }
+
+    @GetMapping(value = "/errorlogin")
+    public String errorlogin() {
+        return "login";
+    }
+
+    @GetMapping(value = "/successlogin")
+    public String successlogin() {
+        return "main";
+    }
+
 
 
 
@@ -77,7 +97,7 @@ public class DefaultController {
         }
         else{
             System.out.println(person);
-            return "redirect:/registration?success";
+            return "redirect:/success";
         }
     }
 }

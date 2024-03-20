@@ -26,19 +26,33 @@ public class Person {
         return password;
     }
     
-
-
-    public String setname(){
-        return name;
+    public void setname(String name){
+        this.name = name;
     }
-    public String setsurname(){
-        return surname;
+    
+    public void setsurname(String surname){
+        this.surname = surname;
     }
-    public String setemail(){
-        return email;
+    
+    public void setemail(String email){
+        this.email = email;
     }
-    public String setpassword(){
-        return password;
+    
+    public void setpassword(String password){
+        this.password = password;
     }
-
 }
+
+
+    // public String setname(){
+    //     return name;
+    // }
+    // public String setsurname(){
+    //     return surname;
+    // }
+    // public String setemail(){
+    //     return email;
+    // }
+    // public String setpassword(){
+    //     return password;
+    // }

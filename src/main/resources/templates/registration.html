@@ -248,7 +248,7 @@
 <h2>Registration</h2>
 <div class="context">
 
-    <form action="RegisterServlet" method="post">
+    <!-- <form action="RegisterServlet" method="post">
 
             <label for="name">Name</label>
             <input type="text" id="name" placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required>
@@ -268,7 +268,29 @@
             <a href="/login" class="button">Already have an account?</a>
             
             <input type ="submit" value="Reģistrēties">
+        </form> -->
+
+        <form action="RegisterServlet" method="post">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Ievadi savu vārdu" minlength="4" maxlength="30" required>
+            
+            <label for="surname">Surname</label>
+            <input type="text" id="surname" name="surname" placeholder="Ievadi savu Uzvārdu" minlength="4" maxlength="30" required>
+        
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Ievadi savu E-pastu" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Ievadiet savu paroli" minlength="8" maxlength="20" required>
+            
+            <label for="confirmpassword">Confirm Password</label>
+            <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Ievadiet atkārtoti paroli" minlength="8" maxlength="20" required>
+            
+            <a href="/login" class="button">Already have an account?</a>
+            
+            <input type ="submit" value="Reģistrēties">
         </form>
+
     </div>
     <div class="area">
         <ul class="circles">
