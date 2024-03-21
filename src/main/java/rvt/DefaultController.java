@@ -1,16 +1,7 @@
 package rvt;
-
-import java.util.HashMap;
-
-import javax.validation.Valid;
-
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,45 +50,36 @@ public class DefaultController {
         return "login";
     }
 
-    @GetMapping(value = "/errorRegister")
-    public String error() {
-        return "registration";
-    }
-
-    @GetMapping(value = "/errorlogin")
-    public String errorlogin() {
-        return "login";
-    }
-
-    @GetMapping(value = "/successlogin")
-    public String successlogin() {
-        return "main";
-    }
-
-
-
-
-
-
-
     @GetMapping(value = "/registration")
-    public ModelAndView register(@RequestParam HashMap<String, String> allParams, User user){
-        if(allParams.containsKey("success")){
-            ModelAndView modelAndView = new ModelAndView("success");
-            return modelAndView;
-        }
+    public ModelAndView register(@RequestParam(name="name", required=false, defaultValue="null") String name, Model model) {
         ModelAndView modelAndView = new ModelAndView("registration");
         return modelAndView;
     }
 
-    @PostMapping(value = "/registration")
-    public String register(@Valid @ModelAttribute("student")Person person, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return "/registration";
-        }
-        else{
-            System.out.println(person);
-            return "redirect:/success";
-        }
-    }
+
+
+
+
+
+
+//     @GetMapping(value = "/registration")
+//     public ModelAndView register(@RequestParam HashMap<String, String> allParams, User user){
+//         if(allParams.containsKey("success")){
+//             ModelAndView modelAndView = new ModelAndView("success");
+//             return modelAndView;
+//         }
+//         ModelAndView modelAndView = new ModelAndView("registration");
+//         return modelAndView;
+//     }
+
+//     @PostMapping(value = "/registration")
+//     public String register(@Valid @ModelAttribute("student")Person person, BindingResult bindingResult){
+//         if(bindingResult.hasErrors()){
+//             return "/registration";
+//         }
+//         else{
+//             System.out.println(person);
+//             return "redirect:/success";
+//         }
+//     }
 }

@@ -1,28 +1,28 @@
-package rvt;
+// package rvt;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.http.MediaType;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.fasterxml.jackson.core.JsonProcessingException;
+// import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RestController
-public class DefaultRestController {
+// @RestController
+// public class DefaultRestController {
 
-    @RequestMapping(value = "/Person", produces = MediaType.APPLICATION_JSON_VALUE)
-    String getAllPersons() {
-        Person person = 
-        new Person("Jānis","Smith","j@s.lv","kaza123");
+//     @RequestMapping(value = "/Person", produces = MediaType.APPLICATION_JSON_VALUE)
+//     String getAllPersons() {
+//         Person person = 
+//         new Person("Jānis","Smith","j@s.lv","kaza123");
 
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String json = objectMapper.writeValueAsString(person);
-            return json;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
+//         ObjectMapper objectMapper = new ObjectMapper();
+//         try {
+//             String json = objectMapper.writeValueAsString(person);
+//             return json;
+//         } catch (JsonProcessingException e) {
+//             e.printStackTrace();
+//             return null;
+//         }
+//     }
+// }
