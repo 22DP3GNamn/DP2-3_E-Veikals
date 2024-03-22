@@ -3,23 +3,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-// import java.io.File;
-// import java.io.FileNotFoundException;
-// import java.io.PrintWriter;
-// import java.util.ArrayList;
-// import java.util.Scanner;
-// import jakarta.servlet.ServletException;
-// import jakarta.servlet.annotation.WebServlet;
-// import jakarta.servlet.http.HttpServlet;
-// import jakarta.servlet.http.HttpServletRequest;
-// import jakarta.servlet.http.HttpServletResponse;
 
 public class CSVManager{
     public void writeToCSV(List<String> data, String filePath) {
         try (FileWriter writer = new FileWriter(filePath, true)) {
             for (String item : data) {
                 writer.append(item);
-                writer.append(",");
+                writer.append(", ");
             }
             writer.append("\n");
         } catch (IOException e) {

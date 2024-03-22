@@ -28,15 +28,15 @@ public class DefaultController {
     String Login(){
         return "login";
     }
-
+    
+    @GetMapping(value = "/YourCart")
+    public String YourCart() {
+        return "YourCart";
+    }
+    
     @GetMapping(value = "/shoppin")
     String shoppin(){
         return "shoppin";
-    }
-
-    @GetMapping(value = "/Cart")
-    String cart(){
-        return "Cart";
     }
 
     @GetMapping(value = "/test")
@@ -49,6 +49,9 @@ public class DefaultController {
     public String success() {
         return "login";
     }
+
+
+
 
     @GetMapping(value = "/registration")
     public ModelAndView register(@RequestParam(name="name", required=false, defaultValue="null") String name, Model model) {
