@@ -1,28 +1,36 @@
 package rvt;
 
-public class Person {
-    
-    public String name;
-    public String surname;
-    public String email;
-    public String password;
+import jakarta.validation.constraints.NotEmpty;
+// import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-    public Person(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-    }
-    public String getname(){
-        return name;
-    }
-    public String getsurname(){
-        return surname;
-    }
-    public String getemail(){
-        return email;
-    }
-    public String getpassword(){
-        return password;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class Person {
+    @NotEmpty(message = "Vārds nevar būt tukšs")
+    private String name;
+
+    @NotEmpty(message = "Vārds nevar būt tukšs")
+    private String surname;
+
+    @NotEmpty(message = "E-pasts nedrīkst būt tukšs")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "E-pastam jābūt derīgam!")
+    private String email;
+
+    @NotEmpty(message = "Vārds nevar būt tukšs")
+    private String password;
+
+    @NotEmpty(message = "Vārds nevar būt tukšs")
+    private String confirmPassword;
+    
+    public String toString() {
+        return name + " " + surname + " " + email + " " + password + " " + confirmPassword;
     }
 }
