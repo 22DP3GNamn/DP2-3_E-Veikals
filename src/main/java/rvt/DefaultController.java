@@ -127,28 +127,3 @@ public class DefaultController {
 
 
 
-
-
-
-
-
-
-
-
-
- // @GetMapping("/login2")
-    // public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap model) {
-        
-    //     CSVManager csvManager = new CSVManager();
-    //     List<List<String>> users = csvManager.readFromCSV("src/main/data/PersonTable.csv");
-    //     for (List<String> user : users) {
-    //         System.out.println("User email: " + user.get(2));
-    //         System.out.println("User password: " + user.get(3));
-    //         if (user.get(2).equals(email) && user.get(3).equals(password)) {
-    //             return "redirect:/";
-    //         }
-    //     }
-    
-    //     model.addAttribute("errorMessage", "Invalid email or password");
-    //     return "login";
-    // }
