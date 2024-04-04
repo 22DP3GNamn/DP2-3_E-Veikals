@@ -58,20 +58,7 @@ background-color: #fdfdfd;
 
 .context h1 {
 width: 100%;
-position: absolute;
-top:50vh;
 position: relative;
-
-}
-
-h2{
-text-align: center;
-color: #0e0b0b;
-font-size: 50px;
-position: absolute;
-top: 120px; 
-left: 50%;
-transform: translateX(-50%);
 }
 
 

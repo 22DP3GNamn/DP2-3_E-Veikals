@@ -3,6 +3,9 @@ package rvt;
 // import java.util.HashMap;
 // import java.util.List;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
@@ -34,11 +37,6 @@ public class DefaultController {
         ModelAndView modelAndView = new ModelAndView("about");
     return modelAndView;
     }
-
-    @GetMapping(value = "/login")
-    String Login(){
-        return "login";
-    }
     
     @GetMapping(value = "/YourCart")
     public String YourCart() {
@@ -66,13 +64,9 @@ public class DefaultController {
 
     @GetMapping(value = "/register")
     public ModelAndView registerPage(@RequestParam HashMap<String, String> allParams){
-
         ModelAndView modelAndView = new ModelAndView("registration");
-        
         Person person = new Person();
-
         modelAndView.addObject("person", person);
-
         return modelAndView;
     }
 
@@ -80,50 +74,35 @@ public class DefaultController {
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
         System.out.println(person.toString());
         if(bindingResult.hasErrors() || !person.getPassword().equals(person.getConfirmPassword())) {
-            // Apstrādāt kļūdas
             return "/registration";
         }
-        // Ja nav kļūdu, turpiniet izpildi
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/data/PersonTable.csv", true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(person.getName() + "," + person.getSurname() + "," + person.getEmail() + "," + person.getPassword());
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/?success";
     }
 
-    // public String register(String name, String surname, String email, String password, String confirmPassword, ModelMap model){
-    //     if (!password.equals(confirmPassword)) {
-    //         model.addAttribute("errorMessage", "Passwords do not match");
-    //         return "/registration";
-    //     } else{
-    //         List<String> formData = Arrays.asList(name, surname, email, password);
-    //         CSVManager csvManager = new CSVManager();
-    //         csvManager.writeToCSV(formData, "src/main/data/PersonTable.csv");
-    //         return "redirect:/"; 
-    //     } 
-    // }
+    @GetMapping(value = "/login")
+    public ModelAndView loginPage(@RequestParam HashMap<String, String> allParams){
+        ModelAndView modelAndView = new ModelAndView("login");
+        Person person = new Person();
+        modelAndView.addObject("person", person);
+        return modelAndView;
+    }
 
-
-
-
-
-    // @GetMapping(value = "/registration")
-    // public ModelAndView register(@RequestParam HashMap<String, String> allParams, User user){
-    //     if(allParams.containsKey("success")){
-    //         ModelAndView modelAndView = new ModelAndView("success");
-    //         return modelAndView;
-    //     }
-    //     ModelAndView modelAndView = new ModelAndView("registration");
-    //     return modelAndView;
-    // }
-
-    // @PostMapping(value = "/registration")
-    // public String register(@Valid @ModelAttribute("student")Person person, BindingResult bindingResult){
-    //     if(bindingResult.hasErrors()){
-    //         return "/registration";
-    //     }
-    //     else{
-    //         System.out.println(person);
-    //         return "redirect:/success";
-    //     }
-    // }
+    @PostMapping(value = "/login")
+    public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult){
+        if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
+            return "/login";
+        }
+        if (CSVManager.userExists(person.getEmail(), person.getPassword())){
+            return "redirect:/?success";
+        }
+        return "/login";
+    }
 }
-
-
-

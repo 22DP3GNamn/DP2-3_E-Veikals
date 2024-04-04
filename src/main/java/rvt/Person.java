@@ -1,7 +1,6 @@
 package rvt;
 
 import jakarta.validation.constraints.NotEmpty;
-// import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,23 +13,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Person {
-    @NotEmpty(message = "Vārds nevar būt tukšs")
+
+    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", message = "Vārdam jābūt derīgam!")
     private String name;
 
-    @NotEmpty(message = "Vārds nevar būt tukšs")
+    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", message = "Uzvārdam jābūt derīgam!")
     private String surname;
 
-    @NotEmpty(message = "E-pasts nedrīkst būt tukšs")
+    @NotEmpty(message = "Lauks nevar būt tukšs")
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "E-pastam jābūt derīgam!")
     private String email;
 
-    @NotEmpty(message = "Vārds nevar būt tukšs")
+    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^.{6,20}$", message = "Parolei jābūt derīgai!")
     private String password;
 
-    @NotEmpty(message = "Vārds nevar būt tukšs")
+    @NotEmpty(message = "Lauks nevar būt tukšs")
     private String confirmPassword;
     
-    public String toString() {
-        return name + " " + surname + " " + email + " " + password + " " + confirmPassword;
-    }
 }

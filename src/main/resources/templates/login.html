@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Page</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/formsRegLog.css" type="text/css">
-    <title>Login</title>
 </head>
 <body>
     <div class="navbar">
-
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="/">E-Store</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 <li class="nav-item">
@@ -35,14 +32,23 @@
         </div>
     </nav>
 </div>
+<div class="context">
     <h2>Login</h2>
-    <form action="/login2" method="post">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Login">
-    </form>
+        <form th:action="@{/login}" method="post" th:object="${person}">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Ievadi savu E-pastu" th:field="*{email}">
+            <p class="text-error" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Ievadiet savu paroli" th:field="*{password}">
+            <p class="text-error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
+
+            <a href="/register" class="button">Don't have an account?</a>
+
+            <input type ="submit" value="Pieslēgties">
+        </form>
+    </div>
     <div class="area">
         <ul class="circles">
             <li></li>
