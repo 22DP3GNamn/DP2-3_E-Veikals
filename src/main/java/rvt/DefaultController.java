@@ -1,23 +1,14 @@
 package rvt;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.List;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
-
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import jakarta.validation.Valid;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class DefaultController {
@@ -72,20 +63,16 @@ public class DefaultController {
 
     @PostMapping("/register")
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
-        System.out.println(person.toString());
         if(bindingResult.hasErrors() || !person.getPassword().equals(person.getConfirmPassword())) {
             return "/registration";
         }
-        try {
-            FileWriter fileWriter = new FileWriter("src/main/data/PersonTable.csv", true);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.println(person.getName() + "," + person.getSurname() + "," + person.getEmail() + "," + person.getPassword());
-            printWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(CSVManager.userWrite(person.getName(), person.getSurname(), person.getEmail(), person.getPassword(), person.getConfirmPassword(), bindingResult, person)){
+            return "redirect:/?success";
         }
-        return "redirect:/?success";
+        return "/registration";
     }
+
+
 
     @GetMapping(value = "/login")
     public ModelAndView loginPage(@RequestParam HashMap<String, String> allParams){
@@ -94,6 +81,8 @@ public class DefaultController {
         modelAndView.addObject("person", person);
         return modelAndView;
     }
+
+
 
     @PostMapping(value = "/login")
     public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult){

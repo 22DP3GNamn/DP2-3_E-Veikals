@@ -28,6 +28,13 @@ border-radius: 8px;
 box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
 
+.nav-link.btn {
+    color: white;
+    border-radius: 20px; 
+    padding: 5px 20px; 
+    margin: 0 40px;
+}
+
 form {
 display: flex;
 flex-direction: column;

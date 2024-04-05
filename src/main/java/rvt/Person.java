@@ -27,7 +27,7 @@ public class Person {
     private String email;
 
     @NotEmpty(message = "Lauks nevar būt tukšs")
-    @Pattern(regexp = "^.{6,20}$", message = "Parolei jābūt derīgai!")
+    @Pattern(regexp = "^.{5,20}$", message = "Parolei jābūt derīgai!")
     private String password;
 
     @NotEmpty(message = "Lauks nevar būt tukšs")
