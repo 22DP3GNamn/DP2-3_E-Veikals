@@ -49,6 +49,10 @@ public class DefaultController {
     public String success() {
         return "login";
     }
+    @GetMapping(value = "/userProfile")
+    public String profilePage() {
+        return "userProfile";
+    }
 
 
 
@@ -63,7 +67,8 @@ public class DefaultController {
 
     @PostMapping("/register")
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || !person.getPassword().equals(person.getConfirmPassword())) {
+        if(CSVManager.userEamailExists(person.getEmail())){
+            bindingResult.rejectValue("email", "error.email", "E-pasts jau ir reģistrēts!");
             return "/registration";
         }
         if(CSVManager.userWrite(person.getName(), person.getSurname(), person.getEmail(), person.getPassword(), person.getConfirmPassword(), bindingResult, person)){
@@ -89,7 +94,7 @@ public class DefaultController {
         if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
             return "/login";
         }
-        if (CSVManager.userExists(person.getEmail(), person.getPassword())){
+        if (CSVManager.login(person.getEmail(), person.getPassword())){
             return "redirect:/?success";
         }
         return "/login";

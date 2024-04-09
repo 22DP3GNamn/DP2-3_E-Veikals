@@ -1,48 +1,51 @@
 package rvt;
 
 import org.springframework.validation.BindingResult;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Scanner;
 
 public class CSVManager {
-    public List<List<String>> readFromCSV(String filePath) {
-            List<List<String>> records = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] values = line.split(",");
-                    records.add(Arrays.asList(values));
+    private static final String file_path = "src/main/data/PersonTable.csv";
+
+    public static boolean login(String email, String password) {
+        try{
+            File inputFile = new File(file_path);
+            try(Scanner scanner = new Scanner(inputFile)){
+                while(scanner.hasNextLine()){
+                    String line = scanner.nextLine();
+                    String[] fields = line.split(",");
+                    if(fields[2].equals(email) && fields[3].equals(password)){
+                        return true;
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-        }
-        return records;
-    } 
-
-
-
-    public static boolean userExists(String email, String password) {
-    CSVManager csvManager = new CSVManager();
-        List<List<String>> records = csvManager.readFromCSV("src/main/data/PersonTable.csv");
-
-        for (List<String> record : records) {
-            String _email = record.get(2);
-            String _password = record.get(3);
-
-            if(email.equals(_email) && password.equals(_password)){
-                return true;
-            }else{
-                return false;
             }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found" + e.getMessage());
+        }
+    return false;
+    }
+
+     public static boolean userEamailExists(String email){
+        try{
+            File inputFile = new File(file_path);
+            try(Scanner scanner = new Scanner(inputFile)){
+                while(scanner.hasNextLine()){
+                    String line = scanner.nextLine();
+                    String[] fields = line.split(",");
+                    if(fields[2].equals(email)){
+                        return true;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found" + e.getMessage());
         }
         return false;
-    }
+     }
 
     public static boolean userWrite(String name,String surname,String email,String password,String confirmPassword, BindingResult bindingResult, Person person) {
         if(bindingResult.hasErrors() || !person.getPassword().equals(person.getConfirmPassword())) {
