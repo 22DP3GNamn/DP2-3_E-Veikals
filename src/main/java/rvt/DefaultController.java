@@ -1,11 +1,11 @@
 package rvt;
 
 import java.util.HashMap;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class DefaultController {
+    String regexName = "^[A-Z][a-z]+$";
+    String regexSurname = "^[A-Z][a-z]+$";
+    String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    String regexPassword = "^.{5,20}$";
+
 
     @GetMapping(value = "/")
-     public ModelAndView index(@RequestParam HashMap<String, String> allParams){
+    public ModelAndView index(@RequestParam HashMap<String, String> allParams){
         if (allParams.containsKey("success")) {
             ModelAndView modelAndView = new ModelAndView("shoppin");
             return modelAndView;
@@ -41,7 +46,7 @@ public class DefaultController {
         return "shoppin";
     }
 
-
+    
     @GetMapping(value = "/successRegister")
     public String success() {
         return "login";
@@ -61,7 +66,7 @@ public class DefaultController {
 
     @PostMapping(value="/register")
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
-        if(CSVManager.userEamailExists(person.getEmail())){
+        if(CSVManager.userEmailExists(person.getEmail())){
             bindingResult.rejectValue("email", "error.email", "E-pasts jau ir reģistrēts!");
             return "/registration";
         }
@@ -71,8 +76,6 @@ public class DefaultController {
         return "/registration";
     }
 
-
-
     @GetMapping(value = "/login")
     public ModelAndView loginPage(@RequestParam HashMap<String, String> allParams){
         ModelAndView modelAndView = new ModelAndView("login");
@@ -81,21 +84,27 @@ public class DefaultController {
         return modelAndView;
     }
 
-
-
     @PostMapping(value="/login")
     public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult, HttpServletRequest request){
-    if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
+        // if(!person.getEmail().matches(regexEmail)){
+        //     bindingResult.rejectValue("email", "error.email", "E-pasts nav pareizs!");
+        //     return "/login";
+        // }
+        // if(!person.getPassword().matches(regexPassword)){
+        //     bindingResult.rejectValue("password", "error.password", "Incoorect password");
+        //     return "/login";
+        // }
+
+        if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
+            return "/login";
+        }
+        if (CSVManager.login(person.getEmail(), person.getPassword())){
+            Person fullPerson = CSVManager.getPersonByEmail(person.getEmail());
+            request.getSession().setAttribute("person", fullPerson);
+            return "redirect:/?success";
+        }
         return "/login";
     }
-    if (CSVManager.login(person.getEmail(), person.getPassword())){
-        Person fullPerson = CSVManager.getPersonByEmail(person.getEmail());
-        request.getSession().setAttribute("person", fullPerson);
-        return "redirect:/?success";
-    }
-    return "/login";
-}
-
 
     @GetMapping(value="/profile")
     public ModelAndView profile(HttpServletRequest request) {
@@ -109,7 +118,6 @@ public class DefaultController {
         }
         return modelAndView;
     }
-
 
     @PostMapping(value="/changeEmail")
     public String changeEmail(@RequestParam("newEmail") String newEmail, HttpServletRequest request) {

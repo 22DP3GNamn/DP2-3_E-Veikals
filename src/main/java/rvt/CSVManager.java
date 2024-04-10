@@ -33,7 +33,7 @@ public class CSVManager {
     return false;
     }
 
-     public static boolean userEamailExists(String email){
+     public static boolean userEmailExists(String email){
         try{
             File inputFile = new File(file_path);
             try(Scanner scanner = new Scanner(inputFile)){
