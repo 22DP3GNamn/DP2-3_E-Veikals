@@ -23,21 +23,24 @@
                     <a class="nav-link" href="/shoppin" >Shop Now!</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/YourCart "th:if="${session.person != null}">Your Cart</a>
+                    <a class="nav-link" href="/YourCart " th:if="${session.person != null}">Your Cart</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-primary" href="/login">
+                    <a class="nav-link btn btn-primary" href="/login" th:if="${session.person == null}">
                         <i class="fas fa-user-plus"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
+                        <i class="fas fa-user"></i> Account
                     </a>
                 </li>
             </ul>
         </div>
-    </nav>
 </div>
 </div>
-    </nav>
     <div class="container">
         <h1 class="mt-5">Welcome to E-Store!</h1>
         <p class="lead">Your one-stop shop for all your needs.</p>

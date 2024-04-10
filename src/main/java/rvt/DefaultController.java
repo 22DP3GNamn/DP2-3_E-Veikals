@@ -1,6 +1,7 @@
 package rvt;
 
 import java.util.HashMap;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class DefaultController {
-    
+
     @GetMapping(value = "/")
      public ModelAndView index(@RequestParam HashMap<String, String> allParams){
         if (allParams.containsKey("success")) {
@@ -23,11 +24,12 @@ public class DefaultController {
         return modelAndView;
     } 
 
-    @GetMapping(value = "/profile")
-    ModelAndView profile(){
-        ModelAndView modelAndView = new ModelAndView("about");
-    return modelAndView;
+    @GetMapping(value = "/test")
+    public ModelAndView testAction(){
+        ModelAndView modelAndView = new ModelAndView("test");
+        return modelAndView;
     }
+
     
     @GetMapping(value = "/YourCart")
     public String YourCart() {
@@ -39,11 +41,6 @@ public class DefaultController {
         return "shoppin";
     }
 
-    @GetMapping(value = "/test")
-    public ModelAndView testAction(){
-        ModelAndView modelAndView = new ModelAndView("test");
-        return modelAndView;
-    }
 
     @GetMapping(value = "/successRegister")
     public String success() {
@@ -54,9 +51,6 @@ public class DefaultController {
         return "userProfile";
     }
 
-
-
-
     @GetMapping(value = "/register")
     public ModelAndView registerPage(@RequestParam HashMap<String, String> allParams){
         ModelAndView modelAndView = new ModelAndView("registration");
@@ -65,7 +59,7 @@ public class DefaultController {
         return modelAndView;
     }
 
-    @PostMapping("/register")
+    @PostMapping(value="/register")
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
         if(CSVManager.userEamailExists(person.getEmail())){
             bindingResult.rejectValue("email", "error.email", "E-pasts jau ir reģistrēts!");
@@ -89,14 +83,59 @@ public class DefaultController {
 
 
 
-    @PostMapping(value = "/login")
-    public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult){
-        if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
-            return "/login";
-        }
-        if (CSVManager.login(person.getEmail(), person.getPassword())){
-            return "redirect:/?success";
-        }
+    @PostMapping(value="/login")
+    public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult, HttpServletRequest request){
+    if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
         return "/login";
+    }
+    if (CSVManager.login(person.getEmail(), person.getPassword())){
+        Person fullPerson = CSVManager.getPersonByEmail(person.getEmail());
+        request.getSession().setAttribute("person", fullPerson);
+        return "redirect:/?success";
+    }
+    return "/login";
+}
+
+
+    @GetMapping(value="/profile")
+    public ModelAndView profile(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("profile");
+        Person person = (Person) request.getSession().getAttribute("person");
+        if (person != null) {
+            modelAndView.addObject("name", person.getName());
+            modelAndView.addObject("surname", person.getSurname());
+            modelAndView.addObject("email", person.getEmail());
+            modelAndView.addObject("password", person.getPassword());
+        }
+        return modelAndView;
+    }
+
+
+    @PostMapping(value="/changeEmail")
+    public String changeEmail(@RequestParam("newEmail") String newEmail, HttpServletRequest request) {
+        Person person = (Person) request.getSession().getAttribute("person");
+        if (person != null) {
+            CSVManager.changeEmail(person.getEmail(), newEmail, request.getSession());
+            person.setEmail(newEmail);
+            request.getSession().setAttribute("person", person);
+        }
+        return "redirect:/profile";
+    }
+
+    @PostMapping(value = "/changePassword")
+    public String changePassword(@RequestParam("newPassword") String newPassword, HttpServletRequest request) {
+        Person person = (Person) request.getSession().getAttribute("person");
+        if (person != null) {
+            CSVManager.changePassword(person.getPassword(), newPassword, request.getSession());
+            person.setPassword(newPassword);
+            request.getSession().setAttribute("person", person);
+        }
+        return "redirect:/profile";
+    }
+
+    @PostMapping(value="/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/";
     }
 }

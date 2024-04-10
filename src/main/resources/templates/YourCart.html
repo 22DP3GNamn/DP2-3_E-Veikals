@@ -3,16 +3,8 @@
 <head>
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/profile.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        } 
-        .navbar {
-            background-color:  #2b2b2b;
-        }
-        
-        </style>
 </head>
 <body>
     <div class="navbar">
@@ -24,16 +16,28 @@
             </button>
             
         <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/shoppin" >Shop Now!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/YourCart " th:if="${session.person != null}">Your Cart</a>
+                </li>
+            </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/shoppin">Shop Now!</a>
+                    <a class="nav-link btn btn-primary" href="/login" th:if="${session.person == null}">
+                        <i class="fas fa-user-plus"></i> Login
+                    </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="/profile"><i class="fas fa-user"></i></a>
-                </li> -->
+                <li class="nav-item ml-auto">
+                    <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
+                        <i class="fas fa-user"></i> Account
+                    </a>
+                </li>
             </ul>
         </div>
-    </nav>
+</div>
 </div>
     <h1>Your Shopping Cart</h1>
     <table>
@@ -44,5 +48,20 @@
         </tr>
     </table>
     <button onclick="location.href='checkout.html'">Proceed to Checkout</button>
+
+<div class="area">
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
 </body>
 </html>
