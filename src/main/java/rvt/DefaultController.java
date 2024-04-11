@@ -70,6 +70,10 @@ public class DefaultController {
             bindingResult.rejectValue("email", "error.email", "E-pasts jau ir reģistrēts!");
             return "/registration";
         }
+        if(!person.getPassword().equals(person.getConfirmPassword())){
+            bindingResult.rejectValue("password", "error.confirmPassword", "Paroles nesakrīt!");
+            return "/registration";
+        }
         if(CSVManager.userWrite(person.getName(), person.getSurname(), person.getEmail(), person.getPassword(), person.getConfirmPassword(), bindingResult, person)){
             return "redirect:/?success";
         }
@@ -86,16 +90,15 @@ public class DefaultController {
 
     @PostMapping(value="/login")
     public String loginForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult, HttpServletRequest request){
-        // if(!person.getEmail().matches(regexEmail)){
-        //     bindingResult.rejectValue("email", "error.email", "E-pasts nav pareizs!");
-        //     return "/login";
-        // }
-        // if(!person.getPassword().matches(regexPassword)){
-        //     bindingResult.rejectValue("password", "error.password", "Incoorect password");
-        //     return "/login";
-        // }
-
         if(bindingResult.getFieldError("email") != null || bindingResult.getFieldError("password") != null){
+            return "/login";
+        }
+        if(!CSVManager.userEmailExists(person.getEmail())){
+            bindingResult.rejectValue("email", "error.email", "E-pasts nav reģistrēts!");
+            return "/login";
+        }
+        if(!CSVManager.login(person.getEmail(), person.getPassword())){
+            bindingResult.rejectValue("password", "error.password", "Nepareiza parole!");
             return "/login";
         }
         if (CSVManager.login(person.getEmail(), person.getPassword())){
@@ -131,14 +134,32 @@ public class DefaultController {
     }
 
     @PostMapping(value = "/changePassword")
-    public String changePassword(@RequestParam("newPassword") String newPassword, HttpServletRequest request) {
+    public String changePassword(String email, @RequestParam("newPassword") String newPassword, HttpServletRequest request) {
         Person person = (Person) request.getSession().getAttribute("person");
         if (person != null) {
-            CSVManager.changePassword(person.getPassword(), newPassword, request.getSession());
+            CSVManager.changePassword(person.getEmail(), person.getPassword(), newPassword, request.getSession());
             person.setPassword(newPassword);
             request.getSession().setAttribute("person", person);
         }
         return "redirect:/profile";
+    }
+
+    @PostMapping(value = "/deleteAccount")
+    public String deleteAccount(HttpServletRequest request) {
+        Person person = (Person) request.getSession().getAttribute("person");
+
+        if (person != null) {
+            String email = person.getEmail();
+            boolean deleteSuccess = CSVManager.deleteAccount(email, request.getSession());
+
+            if (deleteSuccess) {
+                return "redirect:/login"; 
+            } else {
+                return "redirect:/profile";
+            }
+        } else {
+            return "redirect:/profile";
+        }
     }
 
     @PostMapping(value="/logout")

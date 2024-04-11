@@ -63,21 +63,25 @@
             <form th:action="@{/changePassword}" method="post">
                 <div class="password-container">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" th:value="${password}" class="password-input" required>
+                    <input type="password" id="newPassword" name="newPassword" th:value="${password}" class="password-input" required>
                     <input type="checkbox" id="show-password" class="show-password-checkbox" onclick="togglePasswordVisibility()">
                     <label for="show-password" class="show-password-label"><i class="fas fa-eye"></i></label>
                 </div>
                 <button type="submit" class="btn btn-primary">Change Password</button>
             </form>
         </div>
-    
         
+        <form th:action="@{/deleteAccount}" method="post">
+            <button id="deleteAccount" type="submit" class="btn btn-danger">Delete Account</button>
+        </form>
+
         <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-danger">Logout</button>
+            <button id="logout" type="submit" class="btn btn-danger">Logout</button>
         </form>
     </div>
 </div>
 </div>
+
 <div class="area">
     <ul class="circles">
         <li></li>
@@ -96,7 +100,7 @@
 <script>
 
 function togglePasswordVisibility() {
-var passwordInput = document.getElementById("password");
+var passwordInput = document.getElementById("newPassword");
 if (passwordInput.type === "password") {
     passwordInput.type = "text";
 } else {
@@ -113,11 +117,11 @@ if (passwordInput.type === "password") {
 
 .password-input {
     width: 100%;
-    padding-right: 50px; /* Make room for the checkbox */
+    padding-right: 50px;
 }
 
 .show-password-checkbox {
-    display: none; /* Hide the checkbox */
+    display: none;
 }
 
 .show-password-label {

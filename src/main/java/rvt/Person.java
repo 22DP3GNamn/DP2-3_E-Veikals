@@ -1,6 +1,6 @@
 package rvt;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,19 +13,18 @@ import lombok.NoArgsConstructor;
 
 public class Person {
 
-    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^[A-Z][a-z]+$", message = "Vārds jāsākas ar lielo burtu un satur tikai burtus")
     private String name;
 
-    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^[A-Z][a-z]+$", message = "Uzvārds jāsākas ar lielo burtu un satur tikai burtus")
     private String surname;
 
-    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Nederīgs e-pasta formāts")
     private String email;
 
-    @NotEmpty(message = "Lauks nevar būt tukšs")
+    @Pattern(regexp = "^.{5,20}$", message = "Parolei jābūt garumā no 5 līdz 20 simboliem")
     private String password;
 
-    @NotEmpty(message = "Lauks nevar būt tukšs")
     private String confirmPassword;
     
     public Person(String name, String surname, String email, String password) {

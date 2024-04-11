@@ -20,45 +20,12 @@ width: 102%;
 font-family: 'Exo', sans-serif;
 }
 
-.logout{
-    position: absolute;
-    right: 0;
-    margin-right: 20px;
-    margin-top: 10px;
-}
-
-.adminContext{
-    width: 100%;
-    padding: 16px;
-    background-color: rgba(202, 202, 202, 0.753);
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-
-}
-
 .context {
-width: 900px;
+width: 400px;
 padding: 16px;
 background-color: rgba(202, 202, 202, 0.753);
 border-radius: 8px;
 box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
-
-#deleteAccount {
-    background-color: #fc1404;
-    margin-right: 10px;
-}
-
-#deleteAccount:hover {
-    background-color: #3a0005;
-}
-
-#logout {
-    background-color: #fc1404;
-}
-
-#logout:hover {
-    background-color: #3a0005;
 }
 
 .nav-link.btn {
@@ -94,13 +61,11 @@ input[type="submit"]:hover {
 background-color: #fdfdfd;
 }
 
-h1 {
-    font-weight: bold;
-}
+
 
 .context h1 {
 width: 100%;
-position: relative;
+position: text-align; ;
 }
 
 
