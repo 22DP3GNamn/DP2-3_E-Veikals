@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shopping Page</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/shoppin.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
@@ -40,31 +40,21 @@
             </ul>
         </div>
 </div>
-</div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 product-card">
-                        <div class="card-body">
-                            <h2 class="product-name">Burkāns</h2>
-                            <p class="product-description">Garš, orandžs un kraukšķīgs</p>
-                            <h5 class="product-price">4$</h5>
-                            <button class="btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 product-card">
-                        <div class="card-body">
-                            <h2 class="product-name">Kartupelis</h2>
-                            <p class="product-description">Ovāls, dzeltens un garšīgs</p>
-                            <h5 class="product-price">2.5$</h5>
-                            <button class="btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
+
+<div id="product-container" class="row">
+    <c:forEach var="product" items="${products}">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 product-card">
+                <div class="card-body">
+                    <h2 class="product-name">${product.name}</h2>
+                    <p class="product-description">${product.description}</p>
+                    <h5 class="product-price">${product.price}$</h5>
+                    <button class="btn btn-primary" data-id="${product.id}">Add to Cart</button>
                 </div>
             </div>
         </div>
+    </c:forEach>
+</div>
     
 <div class="area">
     <ul class="circles">
