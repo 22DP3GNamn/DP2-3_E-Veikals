@@ -14,19 +14,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.opencsv.exceptions.CsvValidationException;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 
 @Controller
 public class DefaultController {
-    String regexName = "^[A-Z][a-z]+$";
-    String regexSurname = "^[A-Z][a-z]+$";
-    String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-    String regexPassword = "^.{5,20}$";
-
 
     @GetMapping(value = "/")
     public ModelAndView index(@RequestParam HashMap<String, String> allParams){
@@ -44,6 +44,12 @@ public class DefaultController {
         return modelAndView;
     }
 
+    @GetMapping("/allUserManager")
+    public String allUserManager(Model model) throws CsvValidationException {
+        List<Person> users = CSVManager.getAllUsers();
+        model.addAttribute("users", users);
+        return "allUserManager";
+    }
     
     @GetMapping(value = "/YourCart")
     public String YourCart() {
@@ -55,11 +61,11 @@ public class DefaultController {
         return "shoppin";
     }
 
-    
     @GetMapping(value = "/successRegister")
     public String success() {
         return "login";
     }
+
     @GetMapping(value = "/userProfile")
     public String profilePage() {
         return "userProfile";
@@ -176,6 +182,18 @@ public class DefaultController {
         request.getSession().invalidate();
         return "redirect:/";
     }
+    
+    @PostMapping("/allUserManager")
+    public String handleAllUserManager() {
+        return "redirect:/allUserManager";
+    }
+
+
+
+
+
+
+
 
 //     @WebServlet("/products")
 // public class ProductServlet extends HttpServlet {

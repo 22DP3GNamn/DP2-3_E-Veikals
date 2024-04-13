@@ -1,14 +1,19 @@
 package rvt;
 
 import org.springframework.validation.BindingResult;
-
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CSVManager {
@@ -173,4 +178,28 @@ public class CSVManager {
     
         return null;
 }
+
+    public static List<Person> getAllUsers() throws CsvValidationException{
+        List<Person> users = new ArrayList<>();
+        try (Reader reader = Files.newBufferedReader(Paths.get(file_path));
+            CSVReader csvReader = new CSVReader(reader)) {
+            String[] nextRecord;
+            while ((nextRecord = csvReader.readNext()) != null) {
+                Person user = new Person();
+                user.setName(nextRecord[0]);
+                user.setSurname(nextRecord[1]);  
+                user.setEmail(nextRecord[2]); 
+                user.setPassword(nextRecord[3]);
+                users.add(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    
+
+
+
 }

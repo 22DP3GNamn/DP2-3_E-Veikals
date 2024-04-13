@@ -21,11 +21,31 @@ body {
 }
 
 .context {
-    width: 300px;
+    width: 500px;
     padding: 16px;
     background-color: rgba(202, 202, 202, 0.753);
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #090153;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #b2f8fd;
 }
 
 .nav-link.btn {

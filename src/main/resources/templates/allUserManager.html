@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shopping Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/shoppin.css" type="text/css">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    </head>
+    <link rel="stylesheet" href="/css/allUserManager.css" type="text/css">
+</head>
 <body>
+    
     <div class="navbar">
 
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -27,11 +27,6 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary" href="/login" th:if="${session.person == null}">
-                        <i class="fas fa-user-plus"></i> Login
-                    </a>
-                </li>
                 <li class="nav-item ml-auto">
                     <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
                         <i class="fas fa-user"></i> Account
@@ -39,23 +34,26 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </nav>
+</div>
+</div>
+<div class="context">
+    <h1>Users</h1>
+    <table>
 
-<!-- <div id="product-container" class="row">
-    <c:forEach var="product" items="${products}">
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 product-card">
-                <div class="card-body">
-                    <h2 class="product-name">${product.name}</h2>
-                    <p class="product-description">${product.description}</p>
-                    <h5 class="product-price">${product.price}$</h5>
-                    <button class="btn btn-primary" data-id="${product.id}">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </c:forEach>
-</div> -->
-    
+        <tr>
+            <th>Name</th>
+            <th>Surename</th>
+            <th>Email</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.email}"></td>
+            
+        </tr>
+    </table>
+</div>
 <div class="area">
     <ul class="circles">
         <li></li>
