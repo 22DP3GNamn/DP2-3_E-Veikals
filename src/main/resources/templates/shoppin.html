@@ -41,20 +41,20 @@
         </div>
     </div>
 
-<!-- <div id="product-container" class="row">
-    <c:forEach var="product" items="${products}">
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 product-card">
+    <button id="sort-button">Sort by Price</button>
+    <div id="product-container" class="container">
+        <div th:each="product : ${products}" class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 product-card" th:attr="data-price=${product.price}">
                 <div class="card-body">
-                    <h2 class="product-name">${product.name}</h2>
-                    <p class="product-description">${product.description}</p>
-                    <h5 class="product-price">${product.price}$</h5>
-                    <button class="btn btn-primary" data-id="${product.id}">Add to Cart</button>
+                    <h2 class="product-name" th:text="${product.productName}"></h2>
+                    <p class="product-description" th:text="${product.description}"></p>
+                    <h5 class="product-price" th:text="${product.price + ' $'}"></h5>
+                    <button class="btn btn-primary" th:attr="data-id=${product.id}">Add to Cart</button>
                 </div>
             </div>
         </div>
-    </c:forEach>
-</div> -->
+    </div>
+
     
 <div class="area">
     <ul class="circles">

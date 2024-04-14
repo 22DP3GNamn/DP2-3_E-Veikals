@@ -1,21 +1,22 @@
 package rvt;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+// import java.io.BufferedReader;
+// import java.io.FileReader;
+// import java.io.IOException;
+// import java.util.ArrayList;
+// import jakarta.servlet.ServletException;
+// import jakarta.servlet.annotation.WebServlet;
+// import jakarta.servlet.http.HttpServlet;
+// import jakarta.servlet.http.HttpServletResponse;
+// import org.springframework.web.servlet.view.RedirectView;
 import jakarta.validation.Valid;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import java.util.List;
+import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
 import org.springframework.validation.BindingResult;
@@ -57,8 +58,12 @@ public class DefaultController {
     }
     
     @GetMapping(value = "/shoppin")
-    String shoppin(){
-        return "shoppin";
+    public ModelAndView Shoppin(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<Product> products = CSVManager.readCSVProduct();
+        modelAndView.addObject("products", products);
+        modelAndView.setViewName("/shoppin"); 
+        return modelAndView;
     }
 
     @GetMapping(value = "/successRegister")
@@ -188,47 +193,9 @@ public class DefaultController {
         return "redirect:/allUserManager";
     }
 
+    @GetMapping("/products-sorted-by-price")
+    public List<String[]> getProductsSortedByPrice() throws CsvException {
+        return CSVManager.getProductsSortedByPrice();
+    }
 
-
-
-
-
-
-
-//     @WebServlet("/products")
-// public class ProductServlet extends HttpServlet {
-//     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//         List<Product> products = new ArrayList<>();
-//         String line;
-//         BufferedReader br = new BufferedReader(new FileReader("src/main/data/Products.csv"));
-//         while ((line = br.readLine()) != null) {
-//             String[] values = line.split(",");
-//             products.add(new Product(values[0], values[1], values[2], Double.parseDouble(values[3])));
-//         }
-//         request.setAttribute("products", products);
-//         request.getRequestDispatcher("/products.jsp").forward(request, response);
-//     }
-// }
-//     @PostMapping(value = "/addToCart")
-// public String addToCart(HttpServletRequest request) {
-//     // Get the current person's cart
-//     Person person = (Person) request.getSession().getAttribute("person");
-//     Cart cart = person.getCart();
-
-//     // Get the product ID from the request
-//     String productId = request.getParameter("productId");
-
-//     // Find the product by its ID (this assumes you have a method for this)
-//     Product product = ProductManager.findProductById(productId);
-
-//     // Add the product to the cart
-//     cart.addProduct(product);
-
-//     // Update the person's cart in the session
-//     person.setCart(cart);
-//     request.getSession().setAttribute("person", person);
-
-//     // Redirect to the cart page
-//     return "redirect:/YourCart";
-//     }
 }

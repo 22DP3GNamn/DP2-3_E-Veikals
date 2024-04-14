@@ -35,9 +35,4 @@ public class Person {
         this.password = password;
     }
 
-    public Object getId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getId'");
-    }
-
 }

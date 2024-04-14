@@ -2,10 +2,14 @@ package rvt;
 
 import org.springframework.validation.BindingResult;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.http.HttpSession;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,11 +17,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class CSVManager {
     private static final String file_path = "src/main/data/PersonTable.csv";
+    private static final String file_path_product = "src/main/data/Products.csv";
 
     public static boolean login(String email, String password) {
         try {
@@ -159,13 +165,11 @@ public class CSVManager {
     }
 
     public static Person getPersonByEmail(String email) {
-        File file = new File("src/main/data/PersonTable.csv");
-    
-        try (Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(new File(file_path))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] fields = line.split(",");
-                if (fields[2].equals(email)) { 
+                if (fields.length > 2 && fields[2].equals(email)) { 
                     String name = fields[0]; 
                     String surname = fields[1]; 
                     String password = fields[3]; 
@@ -175,9 +179,8 @@ public class CSVManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    
         return null;
-}
+    }
 
     public static List<Person> getAllUsers() throws CsvValidationException{
         List<Person> users = new ArrayList<>();
@@ -198,8 +201,35 @@ public class CSVManager {
         return users;
     }
 
+    public static List<String[]> getProductsSortedByPrice() throws CsvException {
+        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
+            List<String[]> lines = reader.readAll();
+            lines.sort(Comparator.comparing(line -> Double.parseDouble(line[2])));
+            return lines;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Product> readCSVProduct() {
+        String line = "";
+        List<Product> products = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file_path_product))) {
+            while ((line = br.readLine()) != null) {
+                String[] productData = line.split(",");
+                int id = Integer.parseInt(productData[0]);
+                String name = productData[1];
+                String description = productData[2];
+                double price = Double.parseDouble(productData[3]);
     
-
-
+                Product product = new Product(id, name, description, price);
+                products.add(product);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
 
 }
