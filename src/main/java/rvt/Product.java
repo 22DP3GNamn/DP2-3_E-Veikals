@@ -2,7 +2,7 @@ package rvt;
 
 public class Product {
     private int id;
-    private String productName;
+    private String name;
     private String description;
     private double price;
 
@@ -13,12 +13,12 @@ public class Product {
         this.id = id;
     }
     
-    public String getproductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
     
-    public void setproductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getDescription() {
@@ -36,9 +36,9 @@ public class Product {
         this.price = price;
     }
     
-    public Product(int id, String productName, String description, double price) {
+    public Product(int id, String name, String description, double price) {
         this.id = id;
-        this.productName = productName;
+        this.name = name;
         this.description = description;
         this.price = price;
     }

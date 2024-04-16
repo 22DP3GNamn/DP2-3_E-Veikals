@@ -112,6 +112,27 @@ width: 100%;
 position: relative;
 }
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    width: 100%;
+    padding-right: 50px;
+}
+
+.show-password-checkbox {
+    display: none;
+}
+
+.show-password-label {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 
 .area{
 background: #6495ED;  

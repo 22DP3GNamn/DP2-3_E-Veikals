@@ -8,6 +8,7 @@
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/registration.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="navbar">
@@ -72,4 +73,14 @@
         </ul>
     </div>
 </body>
+<script>
+    function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("newPassword");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+    }
+    </script>
 </html>

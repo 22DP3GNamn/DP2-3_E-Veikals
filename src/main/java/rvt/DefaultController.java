@@ -1,24 +1,12 @@
 package rvt;
 
-// import java.io.BufferedReader;
-// import java.io.FileReader;
-// import java.io.IOException;
-// import java.util.ArrayList;
-// import jakarta.servlet.ServletException;
-// import jakarta.servlet.annotation.WebServlet;
-// import jakarta.servlet.http.HttpServlet;
-// import jakarta.servlet.http.HttpServletResponse;
-// import org.springframework.web.servlet.view.RedirectView;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +17,8 @@ import org.springframework.ui.Model;
 @Controller
 public class DefaultController {
 
+    private List<Product> products;
+
     @GetMapping(value = "/")
     public ModelAndView index(@RequestParam HashMap<String, String> allParams){
         if (allParams.containsKey("success")) {
@@ -38,6 +28,11 @@ public class DefaultController {
         ModelAndView modelAndView = new ModelAndView("main");
         return modelAndView;
     } 
+
+    @PostMapping("/allUserManager")
+    public String handleAllUserManager() {
+        return "redirect:/allUserManager";
+    }
 
     @GetMapping(value = "/test")
     public ModelAndView testAction(){
@@ -60,20 +55,10 @@ public class DefaultController {
     @GetMapping(value = "/shoppin")
     public ModelAndView Shoppin(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Product> products = CSVManager.readCSVProduct();
+        products = CSVManager.readCSVProduct();
         modelAndView.addObject("products", products);
         modelAndView.setViewName("/shoppin"); 
         return modelAndView;
-    }
-
-    @GetMapping(value = "/successRegister")
-    public String success() {
-        return "login";
-    }
-
-    @GetMapping(value = "/userProfile")
-    public String profilePage() {
-        return "userProfile";
     }
 
     @GetMapping(value = "/register")
@@ -95,7 +80,7 @@ public class DefaultController {
             return "/registration";
         }
         if(CSVManager.userWrite(person.getName(), person.getSurname(), person.getEmail(), person.getPassword(), person.getConfirmPassword(), bindingResult, person)){
-            return "redirect:/?success";
+            return "redirect:/login";
         }
         return "/registration";
     }
@@ -124,7 +109,7 @@ public class DefaultController {
         if (CSVManager.login(person.getEmail(), person.getPassword())){
             Person fullPerson = CSVManager.getPersonByEmail(person.getEmail());
             request.getSession().setAttribute("person", fullPerson);
-            return "redirect:/?success";
+            return "redirect:/profile";
         }
         return "/login";
     }
@@ -146,9 +131,11 @@ public class DefaultController {
     public String changeEmail(@RequestParam("newEmail") String newEmail, HttpServletRequest request) {
         Person person = (Person) request.getSession().getAttribute("person");
         if (person != null) {
-            CSVManager.changeEmail(person.getEmail(), newEmail, request.getSession());
-            person.setEmail(newEmail);
-            request.getSession().setAttribute("person", person);
+            if(Validator.validateEmail(newEmail)){
+                CSVManager.changeEmail(person.getEmail(), newEmail, request.getSession());
+                person.setEmail(newEmail);
+                request.getSession().setAttribute("person", person);
+            }
         }
         return "redirect:/profile";
     }
@@ -157,9 +144,10 @@ public class DefaultController {
     public String changePassword(String email, @RequestParam("newPassword") String newPassword, HttpServletRequest request) {
         Person person = (Person) request.getSession().getAttribute("person");
         if (person != null) {
-            CSVManager.changePassword(person.getEmail(), person.getPassword(), newPassword, request.getSession());
-            person.setPassword(newPassword);
-            request.getSession().setAttribute("person", person);
+            if(Validator.validatePassword(newPassword))
+                CSVManager.changePassword(person.getEmail(), person.getPassword(), newPassword, request.getSession());
+                person.setPassword(newPassword);
+                request.getSession().setAttribute("person", person);
         }
         return "redirect:/profile";
     }
@@ -187,15 +175,4 @@ public class DefaultController {
         request.getSession().invalidate();
         return "redirect:/";
     }
-    
-    @PostMapping("/allUserManager")
-    public String handleAllUserManager() {
-        return "redirect:/allUserManager";
-    }
-
-    @GetMapping("/products-sorted-by-price")
-    public List<String[]> getProductsSortedByPrice() throws CsvException {
-        return CSVManager.getProductsSortedByPrice();
-    }
-
 }

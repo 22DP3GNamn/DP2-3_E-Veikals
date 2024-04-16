@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Person {
-
     
     @Pattern(regexp = "^[A-Z][a-z]+$", message = "Vārds jāsākas ar lielo burtu un satur tikai burtus")
     private String name;
@@ -34,5 +33,4 @@ public class Person {
         this.email = email;
         this.password = password;
     }
-
 }
