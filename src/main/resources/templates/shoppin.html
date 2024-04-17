@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shopping Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/shoppin.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    </head>
+</head>
 <body>
     <div class="navbar">
 
@@ -41,7 +41,16 @@
         </div>
     </div>
 
-    <button id="sort-button" method="post">Sort by Price</button>
+    <div class="dropdown">
+        <button class="dropbtn">Sort Products</button>
+        <div class="dropdown-content">
+            <form th:action="@{/shoppin}" method="post">
+                <button name="sort" value="higher" id="sort-button-higher">Sort by Higher Price</button>
+                <button name="sort" value="lower" id="sort-button-lower">Sort by Lower Price</button>
+            </form>
+        </div>
+    </div>
+
     <div id="product-container" class="container">
         <div th:each="product : ${products}" class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100 product-card" th:attr="'data-price'=${product.price}">

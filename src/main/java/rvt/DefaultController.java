@@ -175,4 +175,17 @@ public class DefaultController {
         request.getSession().invalidate();
         return "redirect:/";
     }
+
+    @PostMapping(value="/shoppin")
+    public String sortingProducts(@RequestParam("sort") String sort, Model model) {
+        if("higher".equals(sort)) {
+            products = CSVManager.sortProductsByHigherPrice();
+        } else if("lower".equals(sort)) {
+            products = CSVManager.sortProductsByLowerPrice();
+        }else {
+            products = CSVManager.readCSVProduct();
+        }
+        model.addAttribute("products", products);
+        return "shoppin";
+    }
 }

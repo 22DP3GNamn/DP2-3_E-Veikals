@@ -18,18 +18,53 @@ body {
     font-family: 'Exo', sans-serif;
 }
 
-#sort-button {
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    margin: 0;
-    display: block;
-    padding: 10px 20px;
-    background-color: #2e2f30;
-    color: white;
+.dropbtn{
+    background-color: #494f50;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 16px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 180px;
+}
+
+.dropdown {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #5e5e5e; /* Light background for the dropdown */
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px; /* Rounded corners for the dropdown */
+}
+
+.dropdown-content button {
+    color: #ffffff; /* Dark text color for better contrast */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none; /* Remove button border */
+    background: none; /* Remove button background */
+    text-align: left; /* Align text to the left */
+    cursor: pointer; /* Change cursor to pointer when hovering over the button */
+}
+
+.dropdown-content button:hover {
+    background-color: #a0a0a0; /* Light background when hovering over the button */
+    border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 #product-container {

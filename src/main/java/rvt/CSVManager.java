@@ -248,4 +248,15 @@ public class CSVManager {
         // }
     }
 
+    public static List<Product> sortProductsByHigherPrice() {
+        List<Product> products = readCSVProduct();
+        products.sort(Comparator.comparing(Product::getPrice).reversed());
+        return products;
+    }
+
+    public static List<Product> sortProductsByLowerPrice() {
+        List<Product> products = readCSVProduct();
+        products.sort(Comparator.comparing(Product::getPrice));
+        return products;
+    }
 }
