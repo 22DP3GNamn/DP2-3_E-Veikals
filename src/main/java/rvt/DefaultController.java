@@ -182,7 +182,9 @@ public class DefaultController {
             products = CSVManager.sortProductsByHigherPrice();
         } else if("lower".equals(sort)) {
             products = CSVManager.sortProductsByLowerPrice();
-        }else {
+        }else if("A-Z".equals(sort)) {
+            products = CSVManager.getProductsSortedAtoZ();
+        } else {
             products = CSVManager.readCSVProduct();
         }
         model.addAttribute("products", products);

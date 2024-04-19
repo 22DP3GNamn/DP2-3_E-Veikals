@@ -211,6 +211,17 @@ public class CSVManager {
         return null;
     }
 
+    public static List<String[]> getProductsSortedByName() throws CsvException {
+        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
+            List<String[]> lines = reader.readAll();
+            lines.sort(Comparator.comparing(line -> line[1]));
+            return lines;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static List<Product> readCSVProduct() {
         List<Product> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file_path_product))) {
@@ -257,6 +268,12 @@ public class CSVManager {
     public static List<Product> sortProductsByLowerPrice() {
         List<Product> products = readCSVProduct();
         products.sort(Comparator.comparing(Product::getPrice));
+        return products;
+    }
+
+    public static List<Product> getProductsSortedAtoZ() {
+        List<Product> products = readCSVProduct();
+        products.sort(Comparator.comparing(Product::getName));
         return products;
     }
 }
