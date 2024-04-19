@@ -276,4 +276,18 @@ public class CSVManager {
         products.sort(Comparator.comparing(Product::getName));
         return products;
     }
+    
+    public static Product getProductById(int id) {
+        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                if (Integer.parseInt(line[0]) == id) {
+                    return new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3]));
+                }
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

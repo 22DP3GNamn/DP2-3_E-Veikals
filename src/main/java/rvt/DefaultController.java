@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("cart")
+
 public class DefaultController {
 
     private List<Product> products;
@@ -109,6 +112,10 @@ public class DefaultController {
         if (CSVManager.login(person.getEmail(), person.getPassword())){
             Person fullPerson = CSVManager.getPersonByEmail(person.getEmail());
             request.getSession().setAttribute("person", fullPerson);
+
+            Cart cart = new Cart();
+            request.getSession().setAttribute("cart", cart);
+
             return "redirect:/profile";
         }
         return "/login";
@@ -189,5 +196,25 @@ public class DefaultController {
         }
         model.addAttribute("products", products);
         return "shoppin";
+    }
+
+    //CART
+    @ModelAttribute("cart")
+    public Cart getCart() {
+        return new Cart();
+    }
+
+    @PostMapping("/add-to-cart")
+    public String addToCart(@RequestParam String productId, @ModelAttribute("cart") Cart cart) {
+        int id = Integer.parseInt(productId);
+        Product product = CSVManager.getProductById(id);  
+        cart.addProduct(product);
+        return "redirect:/shoppin";
+    }
+
+    @GetMapping("/cart")
+    public String showCart(Model model, @ModelAttribute("cart") Cart cart) {
+        model.addAttribute("cart", cart);
+        return "cart";
     }
 }

@@ -38,16 +38,26 @@
             </ul>
         </div>
 </div>
-</div>
+<div class="container mt-5">
     <h1>Your Shopping Cart</h1>
-    <table>
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${cart.items}">
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.price}"></td>
+            </tr>
+        </tbody>
     </table>
-    <button onclick="location.href='checkout.html'">Proceed to Checkout</button>
+
+<p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
+    
+<button onclick="location.href='checkout.html'">Proceed to Checkout</button>
 
 <div class="area">
     <ul class="circles">

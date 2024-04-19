@@ -59,7 +59,10 @@
                     <h2 class="product-name" th:text="${product.name}"></h2>
                     <p class="product-description" th:text="${product.description}"></p>
                     <h5 class="product-price" th:text="${product.price + ' $'}"></h5>
-                    <button class="btn btn-primary" th:attr="'data-id'=${product.id}">Add to Cart</button>
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <input type="hidden" th:value="${product.id}" name="productId">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>
