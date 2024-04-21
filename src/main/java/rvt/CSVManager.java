@@ -239,24 +239,6 @@ public class CSVManager {
             e.printStackTrace();
         }
         return products;
-        //     String line = "";
-        //     List<Product> products = new ArrayList<>();
-        //     try (BufferedReader br = new BufferedReader(new FileReader(file_path_product))) {
-        //         while ((line = br.readLine()) != null) {
-        //             String[] productData = line.split(",");
-        //             int id = Integer.parseInt(productData[0]);
-        //             String name = productData[1];
-        //             String description = productData[2];
-        //             double price = Double.parseDouble(productData[3]);
-        
-        //             Product product = new Product(id, name, description, price);
-        //             products.add(product);
-        //         }
-        //     } catch (IOException e) {
-        //         e.printStackTrace();
-        //     }
-        //     return products;
-        // }
     }
 
     public static List<Product> sortProductsByHigherPrice() {
