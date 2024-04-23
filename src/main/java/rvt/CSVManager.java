@@ -248,19 +248,17 @@ public class CSVManager {
         return products;
     }
     
-    // public static List<Product> getProductById(int email) {
-    //     List<Product> products = new ArrayList<>();
-    //     String userFilePath = file_path + email + file_path_product;
-        
-    //     try (CSVReader reader = new CSVReader(new FileReader(userFilePath))) {
-    //         String[] line;
-    //         while ((line = reader.readNext()) != null) {
-    //             products.add(new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3])));
-    //         }
-    //     } catch (IOException | CsvException e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     return products;
-    // }
+    public static Product getProductById(int id) {
+        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                if (Integer.parseInt(line[0]) == id) {
+                    return new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3]));
+                }
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

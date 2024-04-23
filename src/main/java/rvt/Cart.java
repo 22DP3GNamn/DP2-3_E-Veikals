@@ -13,6 +13,4 @@ public class Cart {
     public List<Product> getItems() {
         return items;
     }
-
-    
 }
