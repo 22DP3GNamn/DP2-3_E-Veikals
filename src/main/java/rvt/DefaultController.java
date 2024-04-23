@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import com.opencsv.exceptions.CsvValidationException;
@@ -200,17 +202,24 @@ public class DefaultController {
 
     //CART
     @ModelAttribute("cart")
-    public Cart getCart() {
-        return new Cart();
+    public Cart getCart(HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
+        return cart;
     }
 
-    @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam String productId, @ModelAttribute("cart") Cart cart) {
-        int id = Integer.parseInt(productId);
-        Product product = CSVManager.getProductById(id);  
-        cart.addProduct(product);
-        return "redirect:/shoppin";
-    }
+    // @PostMapping("/add-to-cart")
+    // public String addToCart(@RequestParam String email, @ModelAttribute("cart") Cart cart) {
+    //     int id = Integer.parseInt(email);
+    //     List<Product> products = CSVManager.getProductById(id);  
+    //     for (Product product : products) {
+    //         cart.addProduct(product);
+    //     }
+    //     return "redirect:/shoppin";
+    // }
 
     @GetMapping("/cart")
     public String showCart(Model model, @ModelAttribute("cart") Cart cart) {

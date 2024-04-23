@@ -200,17 +200,6 @@ public class CSVManager {
         return users;
     }
 
-    public static List<String[]> getProductsSortedByPrice() throws CsvException {
-        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
-            List<String[]> lines = reader.readAll();
-            lines.sort(Comparator.comparing(line -> Double.parseDouble(line[2])));
-            return lines;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static List<String[]> getProductsSortedByName() throws CsvException {
         try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
             List<String[]> lines = reader.readAll();
@@ -259,17 +248,19 @@ public class CSVManager {
         return products;
     }
     
-    public static Product getProductById(int id) {
-        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
-            String[] line;
-            while ((line = reader.readNext()) != null) {
-                if (Integer.parseInt(line[0]) == id) {
-                    return new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3]));
-                }
-            }
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    // public static List<Product> getProductById(int email) {
+    //     List<Product> products = new ArrayList<>();
+    //     String userFilePath = file_path + email + file_path_product;
+        
+    //     try (CSVReader reader = new CSVReader(new FileReader(userFilePath))) {
+    //         String[] line;
+    //         while ((line = reader.readNext()) != null) {
+    //             products.add(new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3])));
+    //         }
+    //     } catch (IOException | CsvException e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     return products;
+    // }
 }
