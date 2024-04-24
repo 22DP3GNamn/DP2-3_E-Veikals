@@ -115,7 +115,7 @@ input[type="submit"]:hover {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: rgba( 0, 191, 255, 0.35);
+    background: rgba(0, 0, 0, 0.35);
     animation: animate 25s linear infinite;
     bottom: -150px;
 }
