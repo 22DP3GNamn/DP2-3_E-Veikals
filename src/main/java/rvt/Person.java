@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 
 public class Person {
 
-    @Pattern(regexp = "^[A-Z][a-z]+$", message = "Vārds jāsākas ar lielo burtu un satur tikai burtus")
+    @Pattern(regexp = "^[A-ZĀĒĪŌŪČĢĶĻŅŠŽ][a-zāēīōūčģķļņšž]+$", message = "Vārds jāsākas ar lielo burtu un satur tikai burtus")
     private String name;
     
-    @Pattern(regexp = "^[A-Z][a-z]+$", message = "Uzvārds jāsākas ar lielo burtu un satur tikai burtus")
+    @Pattern(regexp = "^[A-ZĀĒĪŌŪČĢĶĻŅŠŽ][a-zāēīōūčģķļņšž]+$", message = "Uzvārds jāsākas ar lielo burtu un satur tikai burtus")
     private String surname;
     
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Nederīgs e-pasta formāts")

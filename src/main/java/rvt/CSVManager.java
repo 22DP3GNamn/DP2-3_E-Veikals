@@ -109,7 +109,6 @@ public class CSVManager {
         File oldFile = new File(file_path);
         File newFile = new File("src/main/data/PersonTable_temp.csv");
 
-    
         try (Scanner scanner = new Scanner(oldFile);
             PrintWriter writer = new PrintWriter(newFile)) {
             while (scanner.hasNext()) {

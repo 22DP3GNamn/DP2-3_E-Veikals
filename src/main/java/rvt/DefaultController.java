@@ -142,10 +142,11 @@ public class DefaultController {
                 CSVManager.changeEmail(person.getEmail(), newEmail, request.getSession());
                 person.setEmail(newEmail);
                 request.getSession().setAttribute("person", person);
-            }else{
-                // bindingResult.rejectValue("email", "error.email", "E-pasts nav reģistrēts!");
-                return "redirect:/profile";
             }
+            // else{
+            //     bindingResult.rejectValue("email", "error.email", "E-pasts nav reģistrēts!");
+            //     return "redirect:/profile";
+            // }
         }
         return "redirect:/profile";
     }
