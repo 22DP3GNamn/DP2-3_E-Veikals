@@ -4,22 +4,25 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("cart")
 
 public class DefaultController {
 
+    
     private List<Product> products;
 
     @GetMapping(value = "/")
@@ -45,14 +48,21 @@ public class DefaultController {
 
     @GetMapping("/allUserManager")
     public String allUserManager(Model model) throws CsvValidationException {
-        List<Person> users = CSVManager.getAllUsers();
-        model.addAttribute("users", users);
+        List<Person> persons = CSVManager.getAllUsers();
+        model.addAttribute("persons", persons);
         return "allUserManager";
     }
-    
-    @GetMapping(value = "/YourCart")
-    public String YourCart() {
-        return "YourCart";
+
+    @PostMapping(value="/deleteUser")
+    public String deleteUser(@RequestParam("email") String email, HttpServletRequest request, RedirectAttributes redirectAttributes) throws CsvValidationException {
+        System.out.println("Email to delete: " + email);
+        boolean result = CSVManager.deletePerson(email);
+        if (result) {
+            return "redirect:/allUserManager";
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "User could not be deleted.");
+            return "redirect:/allUserManager";
+            }
     }
     
     @GetMapping(value = "/shoppin")
@@ -135,30 +145,31 @@ public class DefaultController {
     }
 
     @PostMapping(value="/changeEmail")
-    public String changeEmail(@RequestParam("newEmail") String newEmail, HttpServletRequest request) {
+    public String changeEmail(@RequestParam("newEmail") String newEmail, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         Person person = (Person) request.getSession().getAttribute("person");
         if (person != null) {
             if(Validator.validateEmail(newEmail)){
                 CSVManager.changeEmail(person.getEmail(), newEmail, request.getSession());
                 person.setEmail(newEmail);
                 request.getSession().setAttribute("person", person);
+            } else {
+                redirectAttributes.addFlashAttribute("emailError", "Invalid email format.");
             }
-            // else{
-            //     bindingResult.rejectValue("email", "error.email", "E-pasts nav reģistrēts!");
-            //     return "redirect:/profile";
-            // }
         }
         return "redirect:/profile";
     }
 
-    @PostMapping(value = "/changePassword")
-    public String changePassword(String email, @RequestParam("newPassword") String newPassword, HttpServletRequest request) {
+    @PostMapping(value="/changePassword")
+    public String changePassword(@RequestParam("newPassword") String newPassword, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         Person person = (Person) request.getSession().getAttribute("person");
         if (person != null) {
-            if(Validator.validatePassword(newPassword))
+            if(Validator.validatePassword(newPassword)){
                 CSVManager.changePassword(person.getEmail(), person.getPassword(), newPassword, request.getSession());
                 person.setPassword(newPassword);
                 request.getSession().setAttribute("person", person);
+            } else {
+                redirectAttributes.addFlashAttribute("passwordError", "Invalid password format.");
+            }
         }
         return "redirect:/profile";
     }
@@ -202,6 +213,11 @@ public class DefaultController {
         return "shoppin";
     }
 
+    @GetMapping(value = "/YourCart")
+    public String YourCart() {
+        return "YourCart";
+    }
+
     //CART
     @ModelAttribute("cart")
     public Cart getCart() {
@@ -221,4 +237,5 @@ public class DefaultController {
         model.addAttribute("cart", cart);
         return "cart";
     }
+    
 }

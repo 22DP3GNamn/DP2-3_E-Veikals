@@ -54,6 +54,9 @@
                     <label for="newEmail">New Email</label>
                     <input type="email" class="form-control" id="newEmail" name="newEmail" required>
                 </div>
+                <div th:if="${emailError}" class="alert alert-danger" role="alert">
+                    <p th:text="${emailError}"></p>
+                </div>
                 <button type="submit" class="btn btn-primary">Change Email</button>
             </form>
             
@@ -64,6 +67,9 @@
                     <input type="password" id="newPassword" name="newPassword" th:value="${password}" class="password-input" required>
                     <input type="checkbox" id="show-password" class="show-password-checkbox" onclick="togglePasswordVisibility()">
                     <label for="show-password" class="show-password-label"><i class="fas fa-eye"></i></label>
+                </div>
+                <div th:if="${passwordError}" class="alert alert-danger" role="alert">
+                    <p th:text="${passwordError}"></p>
                 </div>
                 <button type="submit" class="btn btn-primary">Change Password</button>
             </form>

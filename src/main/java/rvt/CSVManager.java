@@ -260,4 +260,38 @@ public class CSVManager {
         }
         return null;
     }
+
+    public static boolean deletePerson(String email) throws CsvValidationException {
+        List<Person> persons = getAllUsers();
+        Person personToDelete = null;
+        System.out.println("Persons before deletion: " + persons);
+    
+        for (Person person : persons) {
+            if (person.getEmail().equals(email)) {
+                personToDelete = person;
+                break;
+            }
+        }
+        if (personToDelete == null) {
+            System.out.println("Person to delete not found!");
+            return false;
+        }
+        persons.remove(personToDelete);
+        File tempFile = new File(file_path + "_temp");
+        try (PrintWriter writer = new PrintWriter(new FileWriter(tempFile))) {
+            for (Person person : persons) {
+                String line = String.format("%s,%s,%s,%s",
+                    person.getName(), person.getSurname(), person.getEmail(), person.getPassword());
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        new File(file_path).delete();
+        tempFile.renameTo(new File(file_path));
+    
+        return true;
+    }
+    
 }

@@ -105,6 +105,18 @@ input[type="submit"]:hover {
 
 h1 {
     font-weight: bold;
+    text-align: center;
+}
+
+.context p{
+    font-size: 25px;
+    text-align: center;
+    
+}
+
+.context h3{
+    text-align: center;
+
 }
 
 .context h1 {

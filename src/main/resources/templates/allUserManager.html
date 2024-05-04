@@ -23,7 +23,7 @@
                     <a class="nav-link" href="/shoppin" >Shop Now!</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/YourCart " th:if="${session.person != null}">Your Cart</a>
+                    <a class="nav-link" href="/YourCart" th:if="${session.person != null}">Your Cart</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -45,12 +45,18 @@
             <th>Name</th>
             <th>Surename</th>
             <th>Email</th>
+            <th>Action</th>
         </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.surname}"></td>
-            <td th:text="${user.email}"></td>
-            
+        <tr th:each="person : ${persons}">
+            <td th:text="${person.name}"></td>
+            <td th:text="${person.surname}"></td>
+            <td th:text="${person.email}"></td>
+            <td>
+                <form action="/deleteUser" method="post">
+                    <input type="hidden" name="email" required th:value="${person.email}" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
     </table>
 </div>
