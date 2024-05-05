@@ -1,10 +1,10 @@
 package rvt;
 
 import jakarta.validation.Valid;
-import java.util.List;
-import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
+import java.util.*;
+import java.io.*;
 
 @Controller
 @SessionAttributes("cart")
 
 public class DefaultController {
-
     
     private List<Product> products;
 
@@ -213,29 +214,68 @@ public class DefaultController {
         return "shoppin";
     }
 
+    // CART
+    @Autowired
+    private HttpSession httpSession;
+
     @GetMapping(value = "/YourCart")
     public String YourCart() {
         return "YourCart";
     }
 
-    //CART
     @ModelAttribute("cart")
     public Cart getCart() {
-        return new Cart();
+        Cart cart = (Cart) httpSession.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            httpSession.setAttribute("cart", cart);
+        }
+        return cart;
     }
 
     @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam String productId, @ModelAttribute("cart") Cart cart) {
+    public String addToCart(@RequestParam String productId, HttpSession session) {
         int id = Integer.parseInt(productId);
         Product product = CSVManager.getProductById(id);  
+        Cart cart = (Cart) session.getAttribute("cart");
         cart.addProduct(product);
+        session.setAttribute("cart", cart);
         return "redirect:/shoppin";
     }
 
     @GetMapping("/cart")
-    public String showCart(Model model, @ModelAttribute("cart") Cart cart) {
+    public String viewCart(HttpSession session, Model model) {
+        Cart cart = (Cart) session.getAttribute("cart");
         model.addAttribute("cart", cart);
-        return "cart";
+        return "redirect:/YourCart";
     }
+
+    @PostMapping("/delete-product")
+    public String deleteProduct(@RequestParam String productId, HttpSession session) {
+        int id = Integer.parseInt(productId);
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart != null) {
+            List<Product> items = cart.getItems();
+            items.removeIf(product -> product.getId() == id);
+            session.setAttribute("cart", cart);
+        }
+        return "redirect:/cart";
+    }
+
+    // @GetMapping("/search")
+    // public List<Product> search(@RequestParam String query) throws IOException {
+    //     List<Product> products = new ArrayList<>();
+    //     File file = new File("src/main/data/Products.csv");
+    //     BufferedReader reader = new BufferedReader(new FileReader(file));
+    //     String line;
+    //     while ((line = reader.readLine()) != null) {
+    //         String[] fields = line.split(",");
+    //         if (fields.length >= 4 && fields[1].toLowerCase().contains(query.toLowerCase())) {
+    //             products.add(new Product(0, fields[1], "", Double.parseDouble(fields[3])));
+    //         }
+    //     }
+    //     reader.close();
+    //     return products;
+    // }
     
 }

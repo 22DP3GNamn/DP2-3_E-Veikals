@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -247,20 +248,6 @@ public class CSVManager {
         return products;
     }
     
-    public static Product getProductById(int id) {
-        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
-            String[] line;
-            while ((line = reader.readNext()) != null) {
-                if (Integer.parseInt(line[0]) == id) {
-                    return new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3]));
-                }
-            }
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static boolean deletePerson(String email) throws CsvValidationException {
         List<Person> persons = getAllUsers();
         Person personToDelete = null;
@@ -294,4 +281,17 @@ public class CSVManager {
         return true;
     }
     
+    public static Product getProductById(int id) {
+        try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                if (Integer.parseInt(line[0]) == id) {
+                    return new Product(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3]));
+                }
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

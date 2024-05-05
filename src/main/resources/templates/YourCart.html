@@ -8,35 +8,36 @@
 </head>
 <body>
     <div class="navbar">
-
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="/">E-Store</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/shoppin" >Shop Now!</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/YourCart " th:if="${session.person != null}">Your Cart</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary" href="/login" th:if="${session.person == null}">
-                        <i class="fas fa-user-plus"></i> Login
-                    </a>
-                </li>
-                <li class="nav-item ml-auto">
-                    <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
-                        <i class="fas fa-user"></i> Account
-                    </a>
-                </li>
-            </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shoppin" >Shop Now!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/YourCart">Your Cart</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="/login" th:if="${session.person == null}">
+                            <i class="fas fa-user-plus"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item ml-auto">
+                        <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
+                            <i class="fas fa-user"></i> Account
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
 </div>
 <div class="container mt-5">
     <h1>Your Shopping Cart</h1>
@@ -45,19 +46,27 @@
             <tr>
                 <th>Item</th>
                 <th>Price</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="product : ${cart.items}">
                 <td th:text="${product.name}"></td>
-                <td th:text="${product.price}"></td>
+                <td th:text="${product.price} + ' $'"></td>
+                <td>
+                    <form action="/delete-product" method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
 
-<p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
+    <p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
     
-<button onclick="location.href='checkout.html'">Proceed to Checkout</button>
+    <button onclick="location.href='checkout.html'" class="btn btn-primary">Proceed to Checkout</button>
+</div>
 
 <div class="area">
     <ul class="circles">
@@ -73,5 +82,6 @@
         <li></li>
     </ul>
 </div>
+
 </body>
 </html>
