@@ -12,7 +12,7 @@
 <div th:if="${error}" class="error-message">
     <p th:text="${error}"></p>
 </div>
-    <div class="navbar">
+    <div>
 
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="/">E-Store</a>
@@ -44,13 +44,26 @@
         </div>
     </div>
 
-    <div class="dropdown">
+    <div class="dropdown sort-dropdown">
         <button class="dropbtn">Sort Products</button>
         <div class="dropdown-content">
-            <form th:action="@{/shoppin}" method="post">
+            <form th:action="@{/shoppin/sort}" method="post">
                 <button name="sort" value="higher" id="sort-button-higher">Sort by Higher Price</button>
                 <button name="sort" value="lower" id="sort-button-lower">Sort by Lower Price</button>
                 <button name="sort" value="A-Z" id="sort-button-newest">Sort A-Z</button>
+            </form>
+        </div>
+    </div>
+    <div class="dropdown filter-dropdown">
+        <button class="dropbtn">Filter Products</button>
+        <div class="dropdown-content">
+            <form th:action="@{/shoppin/filter}" method="post">
+                <button name="filter" value="auglis" id="sort-button-auglis">auglis</button>
+                <button name="filter" value="darzenis" id="sort-button-darzens">darzenis</button>
+                <button name="filter" value="piena produkts" id="sort-button-piens">piena produkts</button>
+                <button name="filter" value="saldumi" id="sort-button-saldums">saldumi</button>
+                <button name="filter" value="gaļa" id="sort-button-gala">gaļa</button>
+                <button name="filter" value="dzēriens" id="sort-button-dzeriens">dzēriens</button>
             </form>
         </div>
     </div>

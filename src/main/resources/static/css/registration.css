@@ -1,5 +1,6 @@
 body {
     background-color: #f8f9fa;
+    
 } .navbar {
 background-color:  #2b2b2b
 }
@@ -16,11 +17,13 @@ font-family: Arial, sans-serif;
 .navbar{
 position: fixed;
 top: 0;
-width: 102%; 
+z-index: 3;
+width: 100%; 
 font-family: 'Exo', sans-serif;
 }
 
 .context {
+margin: auto;
 width: 400px;
 padding: 16px;
 background-color: rgba(202, 202, 202, 0.753);

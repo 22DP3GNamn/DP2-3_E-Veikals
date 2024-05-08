@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CSVManager {
     private static final String file_path = "src/main/data/PersonTable.csv";
@@ -247,6 +247,13 @@ public class CSVManager {
         products.sort(Comparator.comparing(Product::getName));
         return products;
     }
+
+    public static List<Product> filterProducts(String filter) {
+    List<Product> products = readCSVProduct();
+    return products.stream()
+        .filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase()))
+        .collect(Collectors.toList());
+}
     
     public static boolean deletePerson(String email) throws CsvValidationException {
         List<Person> persons = getAllUsers();
@@ -294,4 +301,5 @@ public class CSVManager {
         }
         return null;
     }
+    
 }

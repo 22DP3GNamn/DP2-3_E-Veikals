@@ -3,7 +3,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
     background-color: #8cacf3da;
     font-family: Arial, sans-serif;
@@ -14,7 +13,8 @@ body {
     background-color: #2b2b2b;
     position: fixed;
     top: 0;
-    width: 102%; 
+    z-index: 3;
+    width: 100%; 
     font-family: 'Exo', sans-serif;
 }
 
@@ -30,24 +30,35 @@ body {
     min-width: 180px;
 }
 
-.dropdown {
+/* Existing sort dropdown */
+.sort-dropdown {
     position: absolute;
     top: 75px;
     right: 20px;
+    z-index: 2;
 }
 
-.dropdown-content {
+/* New filter dropdown */
+.filter-dropdown {
+    position: absolute;
+    top: 75px;
+    left: 20px; /* Adjust this value as needed */
+    z-index: 2;
+}
+
+/* Shared styles for dropdown content */
+.sort-dropdown .dropdown-content, .filter-dropdown .dropdown-content {
     display: none;
     position: absolute;
-    right: 0;
     background-color: #5e5e5e;
     min-width: 180px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 2;
     border-radius: 10px; 
 }
 
-.dropdown-content button {
+/* Shared styles for dropdown buttons */
+.sort-dropdown .dropdown-content button, .filter-dropdown .dropdown-content button {
     color: #ffffff;
     padding: 12px 16px;
     text-decoration: none;
@@ -58,14 +69,17 @@ body {
     cursor: pointer; 
 }
 
-.dropdown-content button:hover {
+/* Shared styles for dropdown button hover state */
+.sort-dropdown .dropdown-content button:hover, .filter-dropdown .dropdown-content button:hover {
     background-color: #a0a0a0;
     border-radius: 10px;
 }
 
-.dropdown:hover .dropdown-content {
+/* Show dropdown content on hover */
+.sort-dropdown:hover .dropdown-content, .filter-dropdown:hover .dropdown-content {
     display: block;
 }
+
 
 #product-container {
     display: flex;
@@ -278,12 +292,13 @@ input[type="submit"]:hover {
         font-weight: bold;
     }
     
-    @keyframes animate {
     
-    0%{
-        transform: translateY(1) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
+    @keyframes animate {
+        
+        0%{
+            transform: translateY(1) rotate(0deg);
+            opacity: 1;
+            border-radius: 0;
     }
     
     100%{
@@ -291,4 +306,11 @@ input[type="submit"]:hover {
         opacity: 0;
         border-radius: 50%;
     }
+    
 }
+
+ .container {
+
+    margin-top: 10vh;
+
+} 
