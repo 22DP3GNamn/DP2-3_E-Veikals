@@ -1,11 +1,4 @@
 body {
-    background-color: #f8f9fa;
-    
-} .navbar {
-    background-color:  #2b2b2b
-}
-
-body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,14 +6,16 @@ body {
     margin: 0;
     background-color: #8cacf3da;
     font-family: Arial, sans-serif; 
+    background-color: #f8f9fa;
 }
+
 .navbar{
-    margin: auto;
     position: fixed;
     top: 0;
-    width: 100%;
     z-index: 3;
+    width: 100%; 
     font-family: 'Exo', sans-serif;
+    background-color:  #2b2b2b
 }
 
 .context {
