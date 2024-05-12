@@ -1,6 +1,5 @@
 package rvt;
 
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
@@ -25,7 +24,7 @@ import java.util.*;
 public class DefaultController {
     
     private List<Product> products;
-
+    // MAIN
     @GetMapping(value = "/")
     public ModelAndView index(@RequestParam HashMap<String, String> allParams){
         if (allParams.containsKey("success")) {
@@ -35,46 +34,14 @@ public class DefaultController {
         ModelAndView modelAndView = new ModelAndView("main");
         return modelAndView;
     } 
-
-    @PostMapping("/allUserManager")
-    public String handleAllUserManager() {
-        return "redirect:/allUserManager";
-    }
-
+    // TEST
     @GetMapping(value = "/test")
     public ModelAndView testAction(){
         ModelAndView modelAndView = new ModelAndView("test");
         return modelAndView;
     }
-
-    @GetMapping("/allUserManager")
-    public String allUserManager(Model model) throws CsvValidationException {
-        List<Person> persons = CSVManager.getAllUsers();
-        model.addAttribute("persons", persons);
-        return "allUserManager";
-    }
-
-    @PostMapping(value="/deleteUser")
-    public String deleteUser(@RequestParam("email") String email, HttpServletRequest request, RedirectAttributes redirectAttributes) throws CsvValidationException {
-        System.out.println("Email to delete: " + email);
-        boolean result = CSVManager.deletePerson(email);
-        if (result) {
-            return "redirect:/allUserManager";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "User could not be deleted.");
-            return "redirect:/allUserManager";
-            }
-    }
     
-    @GetMapping(value = "/shoppin")
-    public ModelAndView Shoppin(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        products = CSVManager.readCSVProduct();
-        modelAndView.addObject("products", products);
-        modelAndView.setViewName("/shoppin"); 
-        return modelAndView;
-    }
-
+    // REGISTER
     @GetMapping(value = "/register")
     public ModelAndView registerPage(@RequestParam HashMap<String, String> allParams){
         ModelAndView modelAndView = new ModelAndView("registration");
@@ -99,6 +66,7 @@ public class DefaultController {
         return "/registration";
     }
 
+    // LOGIN
     @GetMapping(value = "/login")
     public ModelAndView loginPage(@RequestParam HashMap<String, String> allParams){
         ModelAndView modelAndView = new ModelAndView("login");
@@ -132,6 +100,7 @@ public class DefaultController {
         return "/login";
     }
 
+    // PROFILE
     @GetMapping(value="/profile")
     public ModelAndView profile(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("profile");
@@ -199,29 +168,75 @@ public class DefaultController {
         return "redirect:/";
     }
 
-    @PostMapping(value="/shoppin/sort")
-    public String sortingProducts(@RequestParam("sort") String sort, Model model) {
-        if("higher".equals(sort)) {
-            products = CSVManager.sortProductsByHigherPrice();
-        } else if("lower".equals(sort)) {
-            products = CSVManager.sortProductsByLowerPrice();
-        }else if("A-Z".equals(sort)) {
-            products = CSVManager.getProductsSortedAtoZ();
+    @PostMapping(value="/deleteUser")
+    public String deleteUser(@RequestParam("email") String email, HttpServletRequest request, RedirectAttributes redirectAttributes) throws CsvValidationException {
+        System.out.println("Email to delete: " + email);
+        boolean result = CSVManager.deletePerson(email);
+        if (result) {
+            return "redirect:/allUserManager";
         } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "User could not be deleted.");
+            return "redirect:/allUserManager";
+            }
+    }
+
+    // ADMIN PRIVILAGES
+    @PostMapping("/allUserManager")
+    public String handleAllUserManager() {
+        return "redirect:/allUserManager";
+    }
+
+    @GetMapping("/allUserManager")
+    public String allUserManager(Model model) throws CsvValidationException {
+        List<Person> persons = CSVManager.getAllUsers();
+        model.addAttribute("persons", persons);
+        return "allUserManager";
+    }
+
+    // SHOPPING
+    @GetMapping(value = "/shoppin")
+    public ModelAndView Shoppin(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        products = CSVManager.readCSVProduct();
+        modelAndView.addObject("products", products);
+        modelAndView.setViewName("/shoppin"); 
+        return modelAndView;
+    }
+
+    @PostMapping("/shoppin/filter")
+    public String filterProducts(@RequestParam String filter, Model model, HttpServletRequest request) {
+        List<Product> products;
+        if ("remove".equals(filter)) {
+            request.getSession().removeAttribute("filteredProducts");
             products = CSVManager.readCSVProduct();
+        } else {
+            products = CSVManager.filterProducts(filter);
+            request.getSession().setAttribute("filteredProducts", products);
         }
         model.addAttribute("products", products);
         return "/shoppin";
     }
 
-    @PostMapping("/shoppin/filter")
-    public String filterProducts(@RequestParam String filter, Model model) {
-        List<Product> products = CSVManager.filterProducts(filter);
+    @SuppressWarnings("unchecked")
+    @PostMapping(value="/shoppin/sort")
+    public String sortingProducts(@RequestParam("sort") String sort, Model model, HttpServletRequest request) {
+        List<Product> products = (List<Product>) request.getSession().getAttribute("filteredProducts");
+        if (products == null) {
+            products = CSVManager.readCSVProduct();
+        }
+        if("higher".equals(sort)) {
+            products = CSVManager.sortProductsByHigherPrice(products);
+        } else if("lower".equals(sort)) {
+            products = CSVManager.sortProductsByLowerPrice(products);
+        }else if("A-Z".equals(sort)) {
+            products = CSVManager.getProductsSortedAtoZ(products);
+        }
         model.addAttribute("products", products);
         return "/shoppin";
     }
 
-    @GetMapping("/Checkout")
+    // CHECKOUT
+    @GetMapping("/checkout")
     public String checkout() {
         return "/checkout";
     }
@@ -279,14 +294,21 @@ public class DefaultController {
         return "redirect:/";
     }
     
+    // YOUR CART
+    @PostMapping("/delete-product")
+    public String deleteProduct(@RequestParam String productId, HttpSession session) {
+        int id = Integer.parseInt(productId);
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart != null) {
+            List<Product> items = cart.getItems();
+            items.removeIf(product -> product.getId() == id);
+            session.setAttribute("cart", cart);
+        }
+        return "redirect:/cart";
+    }
     // CART
     @Autowired
     private HttpSession httpSession;
-
-    @GetMapping(value = "/YourCart")
-    public String YourCart() {
-        return "YourCart";
-    }
 
     @ModelAttribute("cart")
     public Cart getCart() {
@@ -296,6 +318,11 @@ public class DefaultController {
             httpSession.setAttribute("cart", cart);
         }
         return cart;
+    }
+    
+    @GetMapping(value = "/YourCart")
+    public String YourCart() {
+        return "YourCart";
     }
 
     @PostMapping("/add-to-cart")
@@ -314,18 +341,4 @@ public class DefaultController {
         model.addAttribute("cart", cart);
         return "redirect:/YourCart";
     }
-
-    @PostMapping("/delete-product")
-    public String deleteProduct(@RequestParam String productId, HttpSession session) {
-        int id = Integer.parseInt(productId);
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart != null) {
-            List<Product> items = cart.getItems();
-            items.removeIf(product -> product.getId() == id);
-            session.setAttribute("cart", cart);
-        }
-        return "redirect:/cart";
-    }
-    
-
 }

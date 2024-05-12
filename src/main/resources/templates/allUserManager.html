@@ -52,7 +52,7 @@
             <td th:text="${person.email}"></td>
             <td>
                 <form action="/deleteUser" method="post">
-                    <input type="hidden" name="email" required th:value="${person.email}" />
+                    <input type="hidden" name="email" required th:value="${person.email}"  />
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>

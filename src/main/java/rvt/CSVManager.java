@@ -233,29 +233,24 @@ public class CSVManager {
         return products;
     }
 
-    public static List<Product> sortProductsByHigherPrice() {
-        List<Product> products = readCSVProduct();
+    public static List<Product> sortProductsByHigherPrice(List<Product> products) {
         products.sort(Comparator.comparing(Product::getPrice).reversed());
         return products;
     }
-
-    public static List<Product> sortProductsByLowerPrice() {
-        List<Product> products = readCSVProduct();
+    
+    public static List<Product> sortProductsByLowerPrice(List<Product> products) {
         products.sort(Comparator.comparing(Product::getPrice));
         return products;
     }
-
-    public static List<Product> getProductsSortedAtoZ() {
-        List<Product> products = readCSVProduct();
+    
+    public static List<Product> getProductsSortedAtoZ(List<Product> products) {
         products.sort(Comparator.comparing(Product::getName));
         return products;
     }
 
     public static List<Product> filterProducts(String filter) {
         List<Product> products = readCSVProduct();
-        return products.stream()
-            .filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase()))
-            .collect(Collectors.toList());
+        return products.stream().filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
     }
     
     public static boolean deletePerson(String email) throws CsvValidationException {

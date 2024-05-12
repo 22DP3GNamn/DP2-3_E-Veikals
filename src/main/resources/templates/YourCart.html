@@ -39,7 +39,7 @@
         </div>
     </nav>
 </div>
-<div class="container mt-5">
+<div class="context">
     <h1>Your Shopping Cart</h1>
     <table class="table">
         <thead>
@@ -65,7 +65,7 @@
 
     <p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
     
-    <button onclick="location.href='/Checkout'" class="btn btn-primary">Proceed to Checkout</button>
+    <button th:if="${!#lists.isEmpty(cart.items)}" onclick="location.href='/checkout'" class="btn btn-primary">Proceed to Checkout</button>
 </div>
 
 <div class="area">

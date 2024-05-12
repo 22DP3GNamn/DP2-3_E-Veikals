@@ -58,12 +58,13 @@
         <button class="dropbtn">Filter Products</button>
         <div class="dropdown-content">
             <form th:action="@{/shoppin/filter}" method="post">
-                <button name="filter" value="auglis" id="sort-button-auglis">auglis</button>
-                <button name="filter" value="darzenis" id="sort-button-darzens">darzenis</button>
-                <button name="filter" value="piena produkts" id="sort-button-piens">piena produkts</button>
-                <button name="filter" value="saldumi" id="sort-button-saldums">saldumi</button>
-                <button name="filter" value="gaļa" id="sort-button-gala">gaļa</button>
-                <button name="filter" value="dzēriens" id="sort-button-dzeriens">dzēriens</button>
+                <button name="filter" value="remove" id="sort-button-remove">---Remove Filter----</button>
+                <button name="filter" value="fruit" id="sort-button-auglis">Fruit</button>
+                <button name="filter" value="vegetable" id="sort-button-darzens">Vegetable</button>
+                <button name="filter" value="milk products" id="sort-button-piens">Milk products</button>
+                <button name="filter" value="sweets" id="sort-button-saldums">Sweets</button>
+                <button name="filter" value="meat" id="sort-button-gala">Meat</button>
+                <button name="filter" value="drink" id="sort-button-dzeriens">Drink</button>
             </form>
         </div>
     </div>
