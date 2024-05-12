@@ -307,6 +307,8 @@ public class CSVManager {
     
     public static boolean writeCheckoutData(CheckoutForm form) {
         try {
+            System.out.println("Writing checkout data: " + form);
+    
             FileWriter fileWriter = new FileWriter(file_path_checkout, true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.println(form.getName() + ", " + form.getSurname() + ", " + form.getEmail() + ", " + form.getAddress() + ", " + form.getCard() + ", " + form.getExpiryDate() + ", " + form.getCvv());
@@ -317,4 +319,5 @@ public class CSVManager {
             return false;
         }
     }
+
 }

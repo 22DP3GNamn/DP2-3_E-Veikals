@@ -6,6 +6,7 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/Login.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div>
@@ -28,6 +29,13 @@
                     <li class="nav-item ml-auto">
                         <a class="nav-link btn btn-primary" href="/profile" th:if="${session.person != null}">
                             <i class="fas fa-user"></i> Account
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="/reigter" th:if="${session.person == null}">
+                            <i class="fas fa-user-plus"></i> Register
                         </a>
                     </li>
                 </ul>

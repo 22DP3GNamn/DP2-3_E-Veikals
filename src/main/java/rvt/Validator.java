@@ -11,6 +11,7 @@ public class Validator {
     final private static String cardPattern = "^\\d{16}$";
     final private static String cvvPattern = "^\\d{3}$";
     
+    
     public static boolean validateName(String name) {
         return name.matches(namePattern);
     }
@@ -42,4 +43,5 @@ public class Validator {
     public static boolean validateCvv(String cvv) {
         return cvv.matches(cvvPattern);
     }
+
 }

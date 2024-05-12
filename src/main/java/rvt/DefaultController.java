@@ -211,71 +211,72 @@ public class DefaultController {
             products = CSVManager.readCSVProduct();
         }
         model.addAttribute("products", products);
-        return "shoppin";
+        return "/shoppin";
     }
 
     @PostMapping("/shoppin/filter")
     public String filterProducts(@RequestParam String filter, Model model) {
         List<Product> products = CSVManager.filterProducts(filter);
         model.addAttribute("products", products);
-        return "shoppin";
+        return "/shoppin";
     }
 
     @GetMapping("/Checkout")
     public String checkout() {
-        return "checkout";
+        return "/checkout";
     }
-
+    
     @PostMapping("/checkout")
-    public String checkout(@Valid @ModelAttribute("checkoutForm") CheckoutForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
-        if(bindingResult.hasErrors()){
-            return "/checkout";
-        }
+    public String checkout(@ModelAttribute("checkoutForm") CheckoutForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
+        Person person = (Person) request.getSession().getAttribute("person");
+        boolean loggedIn = person != null;
+        model.addAttribute("loggedIn", loggedIn);
 
-        boolean nameIsValid = Validator.validateName(form.getName());
-        System.out.println(nameIsValid);
-        if (!nameIsValid) {
+        if (loggedIn) {
+            if (person != null) {
+                form.setName(person.getName());
+                form.setSurname(person.getSurname());
+                form.setEmail(person.getEmail());
+            }
+        }else if (!Validator.validateName(form.getName())) {
             model.addAttribute("nameError", "Invalid name");
             return "/checkout";
-        }
-
-        boolean surnameIsValid = Validator.validateName(form.getSurname());
-        System.out.println(surnameIsValid);
-        if (!surnameIsValid) {
+        }else if(!Validator.validateSurname(form.getSurname())) {
             model.addAttribute("surnameError", "Invalid surname");
             return "/checkout";
+        }else if(!Validator.validateEmail(form.getEmail())) {
+            model.addAttribute("emailError", "Invalid email");
+            return "/checkout";
         }
 
-        boolean addressIsValid = Validator.validateAddress(form.getAddress());
-        System.out.println(addressIsValid);
-        if (!addressIsValid) {
+        boolean hasErrors = false;
+
+        if(!Validator.validateAddress(form.getAddress())) {
             model.addAttribute("addressError", "Invalid address");
-            return "/checkout";
+            hasErrors = true;
         }
 
-        boolean cardIsValid = Validator.validateCard(form.getCard());
-        System.out.println(cardIsValid);
-        if (!cardIsValid) {
+        if(!Validator.validateCard(form.getCard())) {
             model.addAttribute("cardError", "Invalid card");
-            return "/checkout";
+            hasErrors = true;
         }
 
-        boolean expiryDateIsValid = Validator.validateExpirityDate(form.getExpiryDate());
-        System.out.println(expiryDateIsValid);
-        if (!expiryDateIsValid) {
+        if(!Validator.validateExpirityDate(form.getExpiryDate())) {
             model.addAttribute("expiryError", "Invalid expiry date");
+            hasErrors = true;
+        }
+
+        if(!Validator.validateCvv(form.getCvv())) {
+            model.addAttribute("cvvError", "Invalid CVV");
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return "/checkout";
         }
 
-        boolean cvvIsValid = Validator.validateCvv(form.getCvv());
-        System.out.println(cvvIsValid);
-        if (!cvvIsValid) {
-            model.addAttribute("cvvError", "Invalid CVV");
-            return "/checkout";
-        }
-        System.out.println(form);
         CSVManager.writeCheckoutData(form);
-        return "redirect:/confirmation";
+        return "redirect:/";
     }
     
     // CART

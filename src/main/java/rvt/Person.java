@@ -34,6 +34,4 @@ public class Person {
     private String password;
     
     private String confirmPassword;
-    
-
 }
