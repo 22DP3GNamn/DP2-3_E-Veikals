@@ -1,29 +1,78 @@
 body {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
     background-color: #8cacf3da;
     font-family: Arial, sans-serif; 
     background-color: #f8f9fa;
 }
+
 .navbar{
-    background-color:  #2b2b2b;
     position: fixed;
     top: 0;
     z-index: 3;
     width: 100%; 
     font-family: 'Exo', sans-serif;
+    background-color:  #2b2b2b
 }
 
-.context {
-    margin: auto;
-    width: 300px;
+.logout{
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.adminContext{
+    width: 100%;
     padding: 16px;
     background-color: rgba(202, 202, 202, 0.753);
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+
+}
+
+.context {
+    margin: auto;
+    width: 900px;
+    padding: 16px;
+    background-color: rgba(202, 202, 202, 0.753);
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+#deleteAccount {
+    background-color: #fc1404;
+    margin-right: 10px;
+}
+
+.checkout-title {
+    text-align: center;
+    color: #5a6268;
+}
+
+.checkout-form {
+    max-width: 500px;
+    margin: auto;
+}
+
+.error-message {
+    font-size: 17px !important;
+    color: red;
+}
+
+#deleteAccount:hover {
+    background-color: #3a0005;
+}
+
+#logout {
+    background-color: #fc1404;
+}
+
+#logout:hover {
+    background-color: #3a0005;
 }
 
 .nav-link.btn {
@@ -33,9 +82,18 @@ body {
     margin: 0 40px;
 }
 
+#allUserManager {
+    background-color: #fc1404;
+    margin-right: 10px;
+}
+
+#allUserManager:hover {
+    background-color: #3a0005;
+}
+
 form {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
@@ -56,16 +114,51 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #3d6aff;
+    background-color: #fdfdfd;
 }
 
+h1 {
+    font-weight: bold;
+    text-align: center;
+}
 
+.context p{
+    font-size: 25px;
+    text-align: center;
+    
+}
+
+.context h3{
+    text-align: center;
+
+}
 
 .context h1 {
     width: 100%;
     position: relative;
 }
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    width: 100%;
+    padding-right: 50px;
+}
+
+.show-password-checkbox {
+    display: none;
+}
+
+.show-password-label {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 
 .area{
     background: #6495ED;  
@@ -104,6 +197,7 @@ input[type="submit"]:hover {
     height: 80px;
     animation-delay: 0s;
 }
+
 
 .circles li:nth-child(2){
     left: 10%;
@@ -192,4 +286,3 @@ input[type="submit"]:hover {
 }
 
 }
-

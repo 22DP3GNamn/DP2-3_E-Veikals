@@ -5,6 +5,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.http.HttpSession;
+import lv.rvt.CheckoutForm;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class CSVManager {
     private static final String file_path = "src/main/data/PersonTable.csv";
     private static final String file_path_product = "src/main/data/Products.csv";
+    private static final String file_path_checkout = "src/main/data/checkout.csv";
 
     public static boolean login(String email, String password) {
         try {
@@ -249,11 +252,11 @@ public class CSVManager {
     }
 
     public static List<Product> filterProducts(String filter) {
-    List<Product> products = readCSVProduct();
-    return products.stream()
-        .filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase()))
-        .collect(Collectors.toList());
-}
+        List<Product> products = readCSVProduct();
+        return products.stream()
+            .filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase()))
+            .collect(Collectors.toList());
+    }
     
     public static boolean deletePerson(String email) throws CsvValidationException {
         List<Person> persons = getAllUsers();
@@ -302,4 +305,16 @@ public class CSVManager {
         return null;
     }
     
+    public static boolean writeCheckoutData(CheckoutForm form) {
+        try {
+            FileWriter fileWriter = new FileWriter(file_path_checkout, true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(form.getName() + ", " + form.getSurname() + ", " + form.getEmail() + ", " + form.getAddress() + ", " + form.getCard() + ", " + form.getExpiryDate() + ", " + form.getCvv());
+            printWriter.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -1,6 +1,10 @@
 package rvt;
 
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
+import lv.rvt.CheckoutForm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.opencsv.exceptions.CsvValidationException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
 import java.util.*;
 
@@ -84,11 +86,11 @@ public class DefaultController {
     @PostMapping(value="/register")
     public String registerForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
         if(CSVManager.userEmailExists(person.getEmail())){
-            bindingResult.rejectValue("email", "error.email", "E-pasts jau ir reģistrēts!");
+            bindingResult.rejectValue("email", "error.email", "E-mail is registered!");
             return "/registration";
         }
         if(!person.getPassword().equals(person.getConfirmPassword())){
-            bindingResult.rejectValue("password", "error.confirmPassword", "Paroles nesakrīt!");
+            bindingResult.rejectValue("password", "error.confirmPassword", "Password doesn't match!");
             return "/registration";
         }
         if(CSVManager.userWrite(person.getName(), person.getSurname(), person.getEmail(), person.getPassword(), person.getConfirmPassword(), bindingResult, person)){
@@ -111,11 +113,11 @@ public class DefaultController {
             return "/login";
         }
         if(!CSVManager.userEmailExists(person.getEmail())){
-            bindingResult.rejectValue("email", "error.email", "E-pasts nav reģistrēts!");
+            bindingResult.rejectValue("email", "error.email", "E-email not registered!");
             return "/login";
         }
         if(!CSVManager.login(person.getEmail(), person.getPassword())){
-            bindingResult.rejectValue("password", "error.password", "Nepareiza parole!");
+            bindingResult.rejectValue("password", "error.password", "Wrong password!");
             return "/login";
         }
         if (CSVManager.login(person.getEmail(), person.getPassword())){
@@ -219,6 +221,63 @@ public class DefaultController {
         return "shoppin";
     }
 
+    @GetMapping("/Checkout")
+    public String checkout() {
+        return "checkout";
+    }
+
+    @PostMapping("/checkout")
+    public String checkout(@Valid @ModelAttribute("checkoutForm") CheckoutForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
+        if(bindingResult.hasErrors()){
+            return "/checkout";
+        }
+
+        boolean nameIsValid = Validator.validateName(form.getName());
+        System.out.println(nameIsValid);
+        if (!nameIsValid) {
+            model.addAttribute("nameError", "Invalid name");
+            return "/checkout";
+        }
+
+        boolean surnameIsValid = Validator.validateName(form.getSurname());
+        System.out.println(surnameIsValid);
+        if (!surnameIsValid) {
+            model.addAttribute("surnameError", "Invalid surname");
+            return "/checkout";
+        }
+
+        boolean addressIsValid = Validator.validateAddress(form.getAddress());
+        System.out.println(addressIsValid);
+        if (!addressIsValid) {
+            model.addAttribute("addressError", "Invalid address");
+            return "/checkout";
+        }
+
+        boolean cardIsValid = Validator.validateCard(form.getCard());
+        System.out.println(cardIsValid);
+        if (!cardIsValid) {
+            model.addAttribute("cardError", "Invalid card");
+            return "/checkout";
+        }
+
+        boolean expiryDateIsValid = Validator.validateExpirityDate(form.getExpiryDate());
+        System.out.println(expiryDateIsValid);
+        if (!expiryDateIsValid) {
+            model.addAttribute("expiryError", "Invalid expiry date");
+            return "/checkout";
+        }
+
+        boolean cvvIsValid = Validator.validateCvv(form.getCvv());
+        System.out.println(cvvIsValid);
+        if (!cvvIsValid) {
+            model.addAttribute("cvvError", "Invalid CVV");
+            return "/checkout";
+        }
+        System.out.println(form);
+        CSVManager.writeCheckoutData(form);
+        return "redirect:/confirmation";
+    }
+    
     // CART
     @Autowired
     private HttpSession httpSession;
@@ -267,4 +326,5 @@ public class DefaultController {
         return "redirect:/cart";
     }
     
+
 }

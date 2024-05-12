@@ -12,7 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Person {
+    
+    public Person(String name, String surname, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
 
+    
     @Pattern(regexp = "^[A-ZĀĒĪŌŪČĢĶĻŅŠŽ][a-zāēīōūčģķļņšž]+$", message = "Vārds jāsākas ar lielo burtu un satur tikai burtus")
     private String name;
     
@@ -27,11 +35,5 @@ public class Person {
     
     private String confirmPassword;
     
-    public Person(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-    }
 
 }
