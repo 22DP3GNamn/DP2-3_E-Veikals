@@ -289,6 +289,7 @@ public class DefaultController {
         }
 
         CSVManager.writeCheckoutData(form, (Cart) session.getAttribute("cart"));
+        session.setAttribute("cart", new Cart());
         return "redirect:/";
     }
     
