@@ -2,6 +2,7 @@ package rvt;
 
 import org.springframework.validation.BindingResult;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +28,9 @@ public class CSVManager {
     private static final String file_path = "src/main/data/PersonTable.csv";
     private static final String file_path_product = "src/main/data/Products.csv";
     private static final String file_path_checkout = "src/main/data/checkout.csv";
+    private static final String file_path_product_list = "src/main/data/Product_list.csv";
 
+    //login funkcija
     public static boolean login(String email, String password) {
         try {
             File inputFile = new File(file_path);
@@ -45,7 +48,7 @@ public class CSVManager {
         }
         return false;
     }
-
+    //parbauda vai lietotājs ar šādu e-pastu jau eksistē
      public static boolean userEmailExists(String email){
         try{
             File inputFile = new File(file_path);
@@ -63,7 +66,7 @@ public class CSVManager {
         }
         return false;
      }
-
+    //ieraksta lietotāju csv failā
     public static boolean userWrite(String name,String surname,String email,String password,String confirmPassword, BindingResult bindingResult, Person person) {
         if(bindingResult.hasErrors() || !person.getPassword().equals(person.getConfirmPassword())) {
             return false;
@@ -79,7 +82,7 @@ public class CSVManager {
         return true;
        
     }
-
+    //emaila maiņas funkcija
     public static boolean changeEmail(String email, String newEmail, HttpSession session) {
         File oldFile = new File(file_path);
         File newFile = new File("src/main/data/PersonTable_temp.csv");
@@ -108,7 +111,7 @@ public class CSVManager {
             return false;
         }
     }
-    
+    //paroles maiņas funkcija
     public static boolean changePassword(String email, String password, String newPassword, HttpSession session) {
         File oldFile = new File(file_path);
         File newFile = new File("src/main/data/PersonTable_temp.csv");
@@ -137,7 +140,7 @@ public class CSVManager {
             return false;
         }
     }
-
+    //profila dzēšanas funkcija
     public static boolean deleteAccount(String email, HttpSession session) {
         File oldFile = new File(file_path);
         File newFile = new File("src/main/data/PersonTable_temp.csv");
@@ -154,7 +157,7 @@ public class CSVManager {
             e.printStackTrace();
             return false;
         }
-    
+        
         if (oldFile.delete()) {
             boolean renameSuccess = newFile.renameTo(oldFile);
             if (renameSuccess) {
@@ -165,7 +168,7 @@ public class CSVManager {
             return false;
         }
     }
-
+    //iegūst lietotāju pēc e-pasta
     public static Person getPersonByEmail(String email) {
         try (Scanner scanner = new Scanner(new File(file_path))) {
             while (scanner.hasNextLine()) {
@@ -183,7 +186,7 @@ public class CSVManager {
         }
         return null;
     }
-
+    //iegūst visus lietotājus
     public static List<Person> getAllUsers() throws CsvValidationException{
         List<Person> users = new ArrayList<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(file_path));
@@ -202,7 +205,7 @@ public class CSVManager {
         }
         return users;
     }
-
+    //iegūst produktus pēc nosaukuma
     public static List<String[]> getProductsSortedByName() throws CsvException {
         try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
             List<String[]> lines = reader.readAll();
@@ -213,7 +216,7 @@ public class CSVManager {
         }
         return null;
     }
-
+    //iegūst produktus no csv faila
     public static List<Product> readCSVProduct() {
         List<Product> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file_path_product))) {
@@ -232,27 +235,27 @@ public class CSVManager {
         }
         return products;
     }
-
+    //kārto produktus pēc augstākās cenas
     public static List<Product> sortProductsByHigherPrice(List<Product> products) {
         products.sort(Comparator.comparing(Product::getPrice).reversed());
         return products;
     }
-    
+    //kārto produktus pēc zemākās cenas
     public static List<Product> sortProductsByLowerPrice(List<Product> products) {
         products.sort(Comparator.comparing(Product::getPrice));
         return products;
     }
-    
+    //kārto produktus alfabētiski
     public static List<Product> getProductsSortedAtoZ(List<Product> products) {
         products.sort(Comparator.comparing(Product::getName));
         return products;
     }
-
+    //filtrē produktus
     public static List<Product> filterProducts(String filter) {
         List<Product> products = readCSVProduct();
         return products.stream().filter(product -> product.getDescription().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
     }
-    
+    //dzēš lietotāju admina funkcija
     public static boolean deletePerson(String email) throws CsvValidationException {
         List<Person> persons = getAllUsers();
         Person personToDelete = null;
@@ -285,7 +288,7 @@ public class CSVManager {
     
         return true;
     }
-    
+    //iegūst produktu pēc ID
     public static Product getProductById(int id) {
         try (CSVReader reader = new CSVReader(new FileReader(file_path_product))) {
             String[] line;
@@ -299,8 +302,8 @@ public class CSVManager {
         }
         return null;
     }
-    
-    public static boolean writeCheckoutData(CheckoutForm form) {
+    //CSV faila raksta no checkout forma
+    public static boolean writeCheckoutData(CheckoutForm form, Cart product) {
         try {
             System.out.println("Writing checkout data: " + form);
     
@@ -308,11 +311,18 @@ public class CSVManager {
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.println(form.getName() + ", " + form.getSurname() + ", " + form.getEmail() + ", " + form.getAddress() + ", " + form.getCard() + ", " + form.getExpiryDate() + ", " + form.getCvv());
             printWriter.close();
+            FileWriter fileWriterProduct = new FileWriter(file_path_product_list, true);
+            PrintWriter printWriterProduct = new PrintWriter(fileWriterProduct);
+            printWriterProduct.print(form.getEmail() + ", ");
+            for (Product products : product.getItems()) {
+                printWriterProduct.print(products.getName() + ", ");
+            }
+            printWriterProduct.println();
+            printWriterProduct.close();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }

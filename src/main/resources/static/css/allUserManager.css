@@ -80,13 +80,10 @@ input[type="submit"]:hover {
     background-color: #fdfdfd;
 }
 
-
-
 .context h1 {
     width: 100%;
     position: relative;
 }
-
 
 .area{
     background: #6495ED;  

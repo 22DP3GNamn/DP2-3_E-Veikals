@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import lv.rvt.CheckoutForm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -14,12 +13,10 @@ import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.Model;
 import java.util.*;
 
 @Controller
-@SessionAttributes("cart")
 
 public class DefaultController {
     
@@ -165,6 +162,7 @@ public class DefaultController {
     @PostMapping(value="/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
+        System.out.println("asdfh: " + request.getSession().getAttribute("cart"));
         return "redirect:/";
     }
 
@@ -242,7 +240,7 @@ public class DefaultController {
     }
     
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("checkoutForm") CheckoutForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
+    public String checkout(@ModelAttribute("checkoutForm") CheckoutForm form, BindingResult bindingResult, Model model, HttpServletRequest request , HttpSession session){
         Person person = (Person) request.getSession().getAttribute("person");
         boolean loggedIn = person != null;
         model.addAttribute("loggedIn", loggedIn);
@@ -290,7 +288,7 @@ public class DefaultController {
             return "/checkout";
         }
 
-        CSVManager.writeCheckoutData(form);
+        CSVManager.writeCheckoutData(form, (Cart) session.getAttribute("cart"));
         return "redirect:/";
     }
     
@@ -306,23 +304,20 @@ public class DefaultController {
         }
         return "redirect:/cart";
     }
-    // CART
-    @Autowired
-    private HttpSession httpSession;
+
+    @GetMapping(value = "/YourCart")
+    public String YourCart() {
+        return "YourCart";
+    }
 
     @ModelAttribute("cart")
-    public Cart getCart() {
+    public Cart getCart(HttpSession httpSession) {
         Cart cart = (Cart) httpSession.getAttribute("cart");
         if (cart == null) {
             cart = new Cart();
             httpSession.setAttribute("cart", cart);
         }
         return cart;
-    }
-    
-    @GetMapping(value = "/YourCart")
-    public String YourCart() {
-        return "YourCart";
     }
 
     @PostMapping("/add-to-cart")
@@ -338,6 +333,7 @@ public class DefaultController {
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
+        System.out.println(cart);
         model.addAttribute("cart", cart);
         return "redirect:/YourCart";
     }

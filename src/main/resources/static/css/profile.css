@@ -46,6 +46,7 @@ body {
 #deleteAccount {
     background-color: #fc1404;
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 #deleteAccount:hover {
@@ -54,6 +55,7 @@ body {
 
 #logout {
     background-color: #fc1404;
+    margin-top: 10px;
 }
 
 #logout:hover {
@@ -70,9 +72,20 @@ body {
 #allUserManager {
     background-color: #fc1404;
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 #allUserManager:hover {
+    background-color: #3a0005;
+}
+
+#allProductManager {
+    background-color: #fc1404;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+#allProductManager:hover {
     background-color: #3a0005;
 }
 

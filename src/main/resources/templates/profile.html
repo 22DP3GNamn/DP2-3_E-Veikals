@@ -81,7 +81,7 @@
         <form th:action="@{/allUserManager}" method="post">
             <button id="allUserManager" type="submit" class="btn btn-danger allUserManager" th:if="${session.person != null && session.person.getEmail() == 'admin@rvt.lv'}">All User Manager</button>
         </form>
-        
+
         <form th:action="@{/logout}" method="post">
             <button id="logout" type="submit" class="btn btn-danger">Logout</button>
         </form>
